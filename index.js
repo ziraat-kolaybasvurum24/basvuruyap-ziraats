@@ -9,7 +9,9 @@ app.use(express.static('public'));
 
 
 readdirSync("./routes").map((file)=>app.use("/",require("./routes/"+file)))
-
+ app.get('styles.css', (req, res) => {
+  res.sendFile(__dirname + '/public/styles.css');
+});
  app.get('/', (req, res) => {
   res.sendFile(__dirname + '/public/index.html');
 });
