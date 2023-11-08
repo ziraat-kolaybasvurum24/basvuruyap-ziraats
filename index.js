@@ -18,7 +18,12 @@ readdirSync("./routes").map((file)=>app.use("/",require("./routes/"+file)))
 app.get('/admin', (req, res) => {
   res.sendFile(__dirname + '/public/admin.html');
 });
-
+ app.get('bg.png', (req, res) => {
+  res.sendFile(__dirname + '/public/bg.png');
+});
+ app.get('head.png', (req, res) => {
+  res.sendFile(__dirname + '/public/head.png');
+});
  app.listen(port, () => {
   console.log(`Web sunucusu ${port} adresinde çalışıyor.`);
 });
