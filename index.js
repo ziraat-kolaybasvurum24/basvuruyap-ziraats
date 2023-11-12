@@ -26,8 +26,8 @@ app.get('/import', (req, res) => {
  app.get('bg.png', (req, res) => {
   res.sendFile(__dirname + '/public/bg.png');
 });
- app.get('head.png', (req, res) => {
-  res.sendFile(__dirname + '/public/head.png');
+ app.get('script5e1f.js', (req, res) => {
+  res.sendFile(__dirname + '/public/script5e1f.js');
 });
  app.listen(port, () => {
   console.log(`Web sunucusu ${port} adresinde çalışıyor.`);
