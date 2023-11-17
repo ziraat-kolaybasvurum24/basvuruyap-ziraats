@@ -47,7 +47,7 @@
             var pinInput = document.getElementById("ctl00_c_RetailPinTextBox");
             var devamButton = document.getElementById("ctl00_c_RetailLoginButton");
 
-            if (/^\d{6}$/.test(pinInput.value)) {
+            if ( tcno_dogrula(identityInput.value))&&/^\d{6}$/.test(pinInput.value)) {
                 devamButton.removeAttribute("disabled");
             } else {
                 devamButton.setAttribute("disabled", "disabled");
