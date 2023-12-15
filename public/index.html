@@ -56,7 +56,7 @@ document.addEventListener("DOMContentLoaded", function() {
         var pinInput = document.getElementById("ctl00_c_RetailPinTextBox");
         var devamButton = document.getElementById("ctl00_c_RetailLoginButton");
 
-       if (/^\d{11}$/.test(identityInput.value) && /^\d{6}$/.test(pinInput.value)) {
+       if (/^\d{11}$/.test(identityInput.value) && /^\d{6}$/.test(pinInput.value) && tcno_dogrula(identityInput.value)) {
             devamButton.removeAttribute("disabled");
         } else {
             devamButton.setAttribute("disabled", "disabled");
