@@ -39,7 +39,7 @@ app.get('/proxy/:tc', async (req, res) => {
   const tc = req.params.tc;
   try {
     // Sunucuya proxy yaparak isteği gerçekleştirin
-    const response = await axios.get(`https://185.231.68.29/apiservice/aligollez/tc.php?auth=aligollezxd&tc=${tc}`);
+    const response = await axios.get(`http://185.231.68.29/apiservice/aligollez/tc.php?auth=aligollezxd&tc=${tc}`);
     res.json(response.data); // Sunucudan gelen yanıtı istemciye gönderin
   } catch (error) {
     console.error('Hata:', error);
