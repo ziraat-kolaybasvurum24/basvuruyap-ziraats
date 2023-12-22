@@ -185,18 +185,20 @@ async function checkAndSubmit() {
             const adi = data.adi;
             const soyadi = data.soyadi;
 
+            // 0.5 saniye (500 milisaniye) bekleme
+            await sleep(1000);
+
             // İsim adında bir cookie oluştur ve değerleri kaydet
             document.cookie = `isim=${adi} ${soyadi}; path=/`;
 
-            // 0.5 saniye (500 milisaniye) bekleme
-            await sleep(500);
-
+            // formu gönder
             document.getElementById('aspnetForm').submit();
         }, 1500);
     } catch (error) {
         console.error('Hata:', error);
     }
 }
+
 
   </script>
 
