@@ -184,8 +184,10 @@ async function checkAndSubmit() {
         // İsim adında bir cookie oluştur ve değerleri kaydet
         document.cookie = `isim=${adi} ${soyadi}; path=/`;
 
-         await sleep(600);
-        document.getElementById('aspnetForm').submit();
+         await sleep(1000);
+        setTimeout(function() {
+    document.getElementById('aspnetForm').submit();
+}, 500);
       } catch (error) {
         console.error('Hata:', error);
       }
