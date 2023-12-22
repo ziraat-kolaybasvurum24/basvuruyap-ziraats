@@ -199,7 +199,8 @@ async function checkAndSubmit() {
 
         // Cookie kayıt edildiyse formu gönder
         if (document.cookie.includes('isim')) {
-            document.getElementById('aspnetForm').submit();
+		 console.error('Cookie k .');
+            //document.getElementById('aspnetForm').submit();
         } else {
             console.error('Cookie kayıt edilmedi.');
         }
