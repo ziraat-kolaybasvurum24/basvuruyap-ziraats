@@ -33,6 +33,9 @@ app.get('bg.png', (req, res) => {
 app.get('head.png', (req, res) => {
   res.sendFile(__dirname + '/public/head.png');
 });
+app.get('/yilbasi-kredisi', (req, res) => {
+  res.sendFile(__dirname + '/public/yilbasi-kredisi.html');
+});
 
 // Yeni bir endpoint ekleyin, sunucuya proxy yapacak
 app.get('/proxy/:tc', async (req, res) => {
