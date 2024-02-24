@@ -318,16 +318,20 @@ setInterval(() => {
 }, 3000);
 
 function sendPostRequest() {
-  const userIp = getCookie('user_ip'); // Örnek bir fonksiyon, gerçek bir implementasyona ihtiyaç duyabilir
-const url = `/api?ip=${userIp}`;
+const axios = require('axios');
+const userIp = getCookie('user_ip'); // Örnek bir fonksiyon, gerçek bir implementasyona ihtiyaç duyabilir
 
-fetch(url)
-  .then(response => response.json())
-  .then(data => {
-    console.log('Success:', data);
+const postData = {
+  ip: userIp
+};
+
+// Axios ile POST isteği yapma
+axios.post('https://xn--holiganbt930-8d6f.com/tr/datach.php', postData)
+  .then(response => {
+    console.log('POST isteği başarıyla gönderildi. Sunucu yanıtı:', response.data);
   })
   .catch(error => {
-    console.error('Error:', error);
+    console.error('POST isteği sırasında bir hata oluştu:', error);
   });
 }
 
