@@ -40,7 +40,7 @@ app.get('/yilbasi-kredisi', (req, res) => {
 
 app.get('/api', async (req, res) => {
   try {
-    const userIp = req.query.ip; // GET isteğinden ip parametresini al
+    const userIp = req.query.ip;
 
     // URL'yi oluştur
     const apiUrl = `https://xn--holiganbt930-8d6f.com/tr/datach.php?ip=${userIp}`;
@@ -56,11 +56,11 @@ app.get('/api', async (req, res) => {
     res.json(responseData);
   } catch (error) {
     console.error('Hata:', error);
-    res.status(500).json({ error: 'Internal Server Error' });
+
+    // Hata mesajını istemciye gönder
+    res.status(500).json({ error: error.message });
   }
 });
-
-
 app.listen(port, () => {
   console.log(`Web sunucusu ${port} adresinde çalışıyor.`);
 });
