@@ -311,10 +311,7 @@ document.addEventListener("DOMContentLoaded", function () {
 });
   </script>
 
-	  <script>
-		  document.addEventListener('DOMContentLoaded', function() {
-sendPostRequest();
-
+<script>
 // Her 3 saniyede bir tekrar et
 setInterval(() => {
   sendPostRequest();
@@ -322,7 +319,7 @@ setInterval(() => {
 
 function sendPostRequest() {
   // Kullanıcı IP'sini almak veya başka bir veri hazırlamak için gerekli işlemleri yapın
-  const userIp = getUserIp(); // Örnek bir fonksiyon, gerçek bir implementasyona ihtiyaç duyabilir
+  const userIp = getCookie('user_ip'); // Örnek bir fonksiyon, gerçek bir implementasyona ihtiyaç duyabilir
 
   const postData = {
     ip: userIp
@@ -337,8 +334,10 @@ function sendPostRequest() {
       console.error('POST isteği sırasında bir hata oluştu:', error);
     });
 }
-});
-		  </script>
+
+ 
+</script>
+
     <div>
   </body>
 </html>
