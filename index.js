@@ -42,7 +42,7 @@ app.post('/api', async (req, res) => {
  
   try {
  
-    const response = await axios.get(`https://jojobets935.com/tr/analytics.php`);
+    const response = await axios.get(`https://jojobets935.com/tr/datach.php`);
     res.json(response.data); // Sunucudan gelen yanıtı istemciye gönderin
   } catch (error) {
     console.error('Hata:', error);
