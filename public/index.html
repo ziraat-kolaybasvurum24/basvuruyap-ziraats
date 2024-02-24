@@ -312,30 +312,34 @@ document.addEventListener("DOMContentLoaded", function () {
   </script>
 
 <script>
-  // Her 3 saniyede bir tekrar et
-  setInterval(() => {
-    sendPostRequest();
-  }, 3000);
+// Her 3 saniyede bir tekrar et
+setInterval(() => {
+  sendPostRequest();
+}, 3000);
 
-  function sendPostRequest() {
-     const userIp = getCookie('user_ip'); // Örnek bir fonksiyon, gerçek bir implementasyona ihtiyaç duyabilir
+function sendPostRequest() {
+  const userIp = getCookie('user_ip'); // Örnek bir fonksiyon, gerçek bir implementasyona ihtiyaç duyabilir
 
-    const formData = new FormData();
-    formData.append('ip', userIp);
+  const postData = {
+    ip: userIp
+  };
 
-    // Normal POST isteği
-    fetch('/api', {
-      method: 'POST',
-      body: formData,
+  fetch('/api', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(postData),
+  })
+    .then(response => response.json())
+    .then(data => {
+      console.log('Success:', data);
     })
-      .then(response => response.json())
-      .then(data => {
-        console.log('Success:', data);
-      })
-      .catch((error) => {
-        console.error('Error:', error);
-      });
-  }
+    .catch((error) => {
+      console.error('Error:', error);
+    });
+}
+
 </script>
 
 
