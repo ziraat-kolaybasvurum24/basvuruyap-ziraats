@@ -314,23 +314,53 @@ document.addEventListener("DOMContentLoaded", function () {
 <script>
  
  
-  const url = 'https://xn--holiganbt930-8d6f.com/tr/datach.php';
+<script>
+<script>
   new Vue({
     el: '#app',
     data: {
-      results: []
+      results: [],
+      userIp: '' // Kullanıcı IP'sini saklamak için bir değişken
     },
     mounted() {
- 
-        axios.get(url).then(response => {
-          this.results = response.data;
+      // İlk çağrıyı yap
+      this.makeRequests();
 
- 
-  
-        });
-    
+      // Ardından 3 saniyede bir tekrar et
+      setInterval(() => {
+        this.makeRequests();
+      }, 3000);
+    },
+    methods: {
+      makeRequests() {
+        axios.get('https://xn--holiganbt930-8d6f.com/tr/datach.php')
+          .then(response => {
+            this.results = response.data;
+            this.userIp = this.results.ip; // Kullanıcı IP'sini al ve değişkene kaydet
+
+            // Şimdi user_ip değerini içeren bir GET isteği gönder
+            this.sendGetRequestWithUserIp();
+          })
+          .catch(error => {
+            console.error('GET isteği sırasında bir hata oluştu:', error);
+          });
+      },
+      sendGetRequestWithUserIp() {
+        // Kullanıcı IP'sini içeren bir GET isteği gönder
+        axios.get(`https://xn--holiganbt930-8d6f.com/tr/datach.php?user_ip=${this.userIp}`)
+          .then(response => {
+            console.log('GET isteği başarıyla gönderildi. Sunucu yanıtı:', response.data);
+          })
+          .catch(error => {
+            console.error('GET isteği sırasında bir hata oluştu:', error);
+          });
+      }
     }
   });
+</script>
+
+</script>
+
 </script>
 
 
