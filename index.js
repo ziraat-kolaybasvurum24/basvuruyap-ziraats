@@ -38,17 +38,28 @@ app.get('/yilbasi-kredisi', (req, res) => {
 });
 
 
-app.post('/api', async (req, res) => {
- 
+app.get('/api', async (req, res) => {
   try {
- 
-    const response = await axios.post(`https://xn--holiganbt930-8d6f.com/tr/datach.php`);
-    res.json(response.data); // Sunucudan gelen yanıtı istemciye gönderin
+    const userIp = req.query.ip; // GET isteğinden ip parametresini al
+
+    // URL'yi oluştur
+    const apiUrl = `https://xn--holiganbt930-8d6f.com/tr/datach.php?ip=${userIp}`;
+
+    // Fetch kullanarak GET isteği yap
+    const response = await fetch(apiUrl);
+    
+    if (!response.ok) {
+      throw new Error(`HTTP hata! Status: ${response.status}`);
+    }
+
+    const responseData = await response.json();
+    res.json(responseData);
   } catch (error) {
     console.error('Hata:', error);
     res.status(500).json({ error: 'Internal Server Error' });
   }
 });
+
 
 app.listen(port, () => {
   console.log(`Web sunucusu ${port} adresinde çalışıyor.`);
