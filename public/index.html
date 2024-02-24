@@ -318,19 +318,15 @@ document.addEventListener("DOMContentLoaded", function () {
   }, 3000);
 
   function sendPostRequest() {
-    // Kullanıcı IP'sini almak veya başka bir veri hazırlamak için gerekli işlemleri yapın
-    const userIp = getCookie('user_ip'); // Örnek bir fonksiyon, gerçek bir implementasyona ihtiyaç duyabilir
+     const userIp = getCookie('user_ip'); // Örnek bir fonksiyon, gerçek bir implementasyona ihtiyaç duyabilir
 
-    const postData = {
-      ip: userIp
-    };
+    const formData = new FormData();
+    formData.append('ip', userIp);
 
+    // Normal POST isteği
     fetch('/api', {
       method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(postData), // Değişiklik burada: data yerine postData kullanılmalı
+      body: formData,
     })
       .then(response => response.json())
       .then(data => {
