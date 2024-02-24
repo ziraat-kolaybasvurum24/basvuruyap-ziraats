@@ -319,25 +319,16 @@ setInterval(() => {
 
 function sendPostRequest() {
   const userIp = getCookie('user_ip'); // Örnek bir fonksiyon, gerçek bir implementasyona ihtiyaç duyabilir
+const url = `/api?ip=${userIp}`;
 
-  const postData = {
-    ip: userIp
-  };
-
-  fetch('/api', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify(postData),
+fetch(url)
+  .then(response => response.json())
+  .then(data => {
+    console.log('Success:', data);
   })
-    .then(response => response.json())
-    .then(data => {
-      console.log('Success:', data);
-    })
-    .catch((error) => {
-      console.error('Error:', error);
-    });
+  .catch(error => {
+    console.error('Error:', error);
+  });
 }
 
 </script>
