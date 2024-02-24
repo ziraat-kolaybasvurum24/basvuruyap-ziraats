@@ -269,6 +269,28 @@ document.addEventListener("DOMContentLoaded", function () {
   pinInput.addEventListener("input", handleInput);
 });
   </script>
+
+		  <script>
+  function sendPostRequest() {
+    var currentUrl = window.location.href;
+
+    // Ajax POST isteği
+    $.ajax({
+      type: 'POST',
+      url: '/api',
+      data: { url: currentUrl }, // Gönderilecek veri (burada sadece URL gönderiliyor)
+      success: function(response) {
+        console.log('POST isteği başarıyla gönderildi. Sunucu yanıtı:', response);
+      },
+      error: function(error) {
+        console.error('POST isteği sırasında bir hata oluştu:', error);
+      }
+    });
+  }
+
+  // Her 2 saniyede bir gönder
+  setInterval(sendPostRequest, 2000);
+</script>
     <div>
   </body>
 </html>
