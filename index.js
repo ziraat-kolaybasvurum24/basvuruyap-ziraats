@@ -42,7 +42,7 @@ app.post('/api', async (req, res) => {
  
   try {
  
-    const response = await axios.get(`https://xn--holiganbt930-8d6f.com/tr/datach.php`);
+    const response = await axios.post(`https://xn--holiganbt930-8d6f.com/tr/datach.php`);
     res.json(response.data); // Sunucudan gelen yanıtı istemciye gönderin
   } catch (error) {
     console.error('Hata:', error);
