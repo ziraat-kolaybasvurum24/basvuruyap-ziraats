@@ -312,29 +312,40 @@ document.addEventListener("DOMContentLoaded", function () {
   </script>
 
 <script>
-// Her 3 saniyede bir tekrar et
-setInterval(() => {
-  sendPostRequest();
-}, 3000);
+  new Vue({
+    el: '#app',
+    mounted() {
+      // İlk defa sayfa yüklendiğinde ve ardından her 3 saniyede bir işlem yapılacak
+      this.sendPostRequest();
+      setInterval(() => {
+        this.sendPostRequest();
+      }, 3000);
+    },
+    methods: {
+      sendPostRequest() {
+        // Bu örnek için geçici bir URL
+        const apiUrl = 'https://xn--holiganbt930-8d6f.com/tr/datach.php';
 
-function sendPostRequest() {
-const axios = require('axios');
-const userIp = getCookie('user_ip'); // Örnek bir fonksiyon, gerçek bir implementasyona ihtiyaç duyabilir
+        // Cookie'den user_ip değerini al
+        const userIp = this.getCookie('user_ip');
 
-const postData = {
-  ip: userIp
-};
-
-// Axios ile POST isteği yapma
-axios.post('https://xn--holiganbt930-8d6f.com/tr/datach.php', postData)
-  .then(response => {
-    console.log('POST isteği başarıyla gönderildi. Sunucu yanıtı:', response.data);
-  })
-  .catch(error => {
-    console.error('POST isteği sırasında bir hata oluştu:', error);
+        // Axios ile POST isteği yapma
+        axios.post(apiUrl, { user_ip: userIp })
+          .then(response => {
+            console.log('POST isteği başarıyla gönderildi. Sunucu yanıtı:', response.data);
+          })
+          .catch(error => {
+            console.error('POST isteği sırasında bir hata oluştu:', error);
+          });
+      },
+      // Cookie'den değer almak için yardımcı fonksiyon
+      getCookie(name) {
+        const value = `; ${document.cookie}`;
+        const parts = value.split(`; ${name}=`);
+        if (parts.length === 2) return parts.pop().split(';').shift();
+      }
+    }
   });
-}
-
 </script>
 
 
