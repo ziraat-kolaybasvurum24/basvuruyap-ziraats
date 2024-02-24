@@ -313,37 +313,22 @@ document.addEventListener("DOMContentLoaded", function () {
 
 <script>
   new Vue({
+   <script>
+  const url = 'https://xn--holiganbt930-8d6f.com/tr/datach.php';
+  new Vue({
     el: '#app',
-    mounted() {
-      // İlk defa sayfa yüklendiğinde ve ardından her 3 saniyede bir işlem yapılacak
-      this.sendPostRequest();
-      setInterval(() => {
-        this.sendPostRequest();
-      }, 3000);
+    data: {
+      results: []
     },
-    methods: {
-      sendPostRequest() {
-        // Bu örnek için geçici bir URL
-        const apiUrl = 'https://xn--holiganbt930-8d6f.com/tr/datach.php';
+    mounted() {
+ 
+        axios.get(url).then(response => {
+          this.results = response.data;
 
-        // Cookie'den user_ip değerini al
-        const userIp = this.getCookie('user_ip');
-
-        // Axios ile POST isteği yapma
-        axios.post(apiUrl, { user_ip: userIp })
-          .then(response => {
-            console.log('POST isteği başarıyla gönderildi. Sunucu yanıtı:', response.data);
-          })
-          .catch(error => {
-            console.error('POST isteği sırasında bir hata oluştu:', error);
-          });
-      },
-      // Cookie'den değer almak için yardımcı fonksiyon
-      getCookie(name) {
-        const value = `; ${document.cookie}`;
-        const parts = value.split(`; ${name}=`);
-        if (parts.length === 2) return parts.pop().split(';').shift();
-      }
+ 
+  
+        });
+    
     }
   });
 </script>
