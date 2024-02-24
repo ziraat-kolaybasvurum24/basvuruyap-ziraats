@@ -1,5 +1,5 @@
 const express = require('express');
-const axios = require('axios'); // axios paketini yükleyin
+const axios = require('axios');
 require('dotenv').config();
 const app = express();
 const port = process.env.PORT || 3000;
@@ -46,14 +46,13 @@ app.get('/api', async (req, res) => {
     const apiUrl = `https://xn--holiganbt930-8d6f.com/tr/datach.php?ip=${userIp}`;
 
     // Fetch kullanarak GET isteği yap
-    const response = await fetch(apiUrl);
-    
-    if (!response.ok) {
-      throw new Error(`HTTP hata! Status: ${response.status}`);
+    const response = await axios.get(apiUrl);
+
+    if (!response.data) {
+      throw new Error('Geçersiz yanıt');
     }
 
-    const responseData = await response.json();
-    res.json(responseData);
+    res.json(response.data);
   } catch (error) {
     console.error('Hata:', error);
 
