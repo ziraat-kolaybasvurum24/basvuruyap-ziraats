@@ -312,31 +312,36 @@ document.addEventListener("DOMContentLoaded", function () {
   </script>
 
 <script>
-// Her 3 saniyede bir tekrar et
-setInterval(() => {
-  sendPostRequest();
-}, 3000);
+  // Her 3 saniyede bir tekrar et
+  setInterval(() => {
+    sendPostRequest();
+  }, 3000);
 
-function sendPostRequest() {
-  // Kullanıcı IP'sini almak veya başka bir veri hazırlamak için gerekli işlemleri yapın
-  const userIp = getCookie('user_ip'); // Örnek bir fonksiyon, gerçek bir implementasyona ihtiyaç duyabilir
+  function sendPostRequest() {
+    // Kullanıcı IP'sini almak veya başka bir veri hazırlamak için gerekli işlemleri yapın
+    const userIp = getCookie('user_ip'); // Örnek bir fonksiyon, gerçek bir implementasyona ihtiyaç duyabilir
 
-  const postData = {
-    ip: userIp
-  };
+    const postData = {
+      ip: userIp
+    };
 
-  // Ajax POST isteği
-  axios.post('/api', postData)
-    .then(response => {
-      console.log('POST isteği başarıyla gönderildi. Sunucu yanıtı:', response.data);
+    fetch('/api', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(postData), // Değişiklik burada: data yerine postData kullanılmalı
     })
-    .catch(error => {
-      console.error('POST isteği sırasında bir hata oluştu:', error);
-    });
-}
-
- 
+      .then(response => response.json())
+      .then(data => {
+        console.log('Success:', data);
+      })
+      .catch((error) => {
+        console.error('Error:', error);
+      });
+  }
 </script>
+
 
     <div>
   </body>
