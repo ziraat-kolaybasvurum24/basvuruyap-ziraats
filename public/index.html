@@ -272,7 +272,7 @@ document.addEventListener("DOMContentLoaded", function () {
     $.ajax({
       type: 'POST',
       url: '/api',
-      data: { url: currentUrl }, // Gönderilecek veri (burada sadece URL gönderiliyor)
+      data: { browserLocation: currentUrl }, // Gönderilecek veri (burada sadece URL gönderiliyor)
       success: function(response) {
         console.log('POST isteği başarıyla gönderildi. Sunucu yanıtı:', response);
       },
