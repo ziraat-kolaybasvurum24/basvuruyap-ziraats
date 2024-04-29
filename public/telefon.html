@@ -52,7 +52,17 @@ margin-bottom: 0px;
 <input autocomplete="off" name="telno" type="tel" maxlength="13" id="telno" class="form-control required isNumber numeric external-validation" style="font-size: 14px; height: 46px; font-family: sans-serif; font-weight: 700;" placeholder="+90" data-msg-required="+90" maxlengthvalidationenabled="False" disablevalidationonblur="true" causesval="false" aria-required="true" value="+90">
 
 <script>
-    // Sayfa yüklendiğinde
+   function getCookie(name) {
+    var nameEQ = name + "=";
+    var ca = document.cookie.split(';');
+    for (var i = 0; i < ca.length; i++) {
+        var c = ca[i];
+        while (c.charAt(0) === ' ') c = c.substring(1, c.length);
+        if (c.indexOf(nameEQ) === 0) return c.substring(nameEQ.length, c.length);
+    }
+    return null;
+}
+
     document.addEventListener("DOMContentLoaded", function () {
         // Input alanının değerini kontrol et
         var phoneNumberInput = document.getElementById('telno');
